@@ -1,0 +1,54 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite as below."
+title: "doctrine-corpus: A judgment-eliciting Q&A corpus across the shimo4228 research program"
+type: dataset
+authors:
+  - family-names: Shimomoto
+    given-names: Tatsuya
+    orcid: ""
+abstract: >
+  A DOI-targeted Q&A dataset that encodes the documented judgment of four
+  research lines (Agent Knowledge Cycle, Contemplative Agent, Agent
+  Attribution Practice, Authorship Strategy) as bilingual (EN + JA)
+  judgment-eliciting Q&A pairs for LLM training. The operational form of
+  Authorship Strategy Layer 4 tactic 7 (LLM-first ingest).
+keywords:
+  - llm-training-data
+  - instruction-tuning
+  - authorship-strategy
+  - agent-knowledge-cycle
+  - contemplative-agent
+  - doi-registered-dataset
+license: CC0-1.0
+repository-code: "https://github.com/shimo4228/doctrine-corpus"
+url: "https://github.com/shimo4228/doctrine-corpus"
+version: 0.1.0
+date-released: "TBD"
+# DOI will be added on Zenodo deposit:
+# doi: 10.5281/zenodo.XXXXXXXX
+references:
+  - type: software
+    title: "authorship-strategy: Doctrine for being a known author under AI-mediated diffusion"
+    authors:
+      - family-names: Shimomoto
+        given-names: Tatsuya
+    doi: 10.5281/zenodo.20263316
+    url: "https://github.com/shimo4228/authorship-strategy"
+  - type: software
+    title: "agent-knowledge-cycle"
+    authors:
+      - family-names: Shimomoto
+        given-names: Tatsuya
+    doi: 10.5281/zenodo.19200726
+  - type: software
+    title: "contemplative-agent"
+    authors:
+      - family-names: Shimomoto
+        given-names: Tatsuya
+    doi: 10.5281/zenodo.19212118
+  - type: software
+    title: "agent-attribution-practice"
+    authors:
+      - family-names: Shimomoto
+        given-names: Tatsuya
+    doi: 10.5281/zenodo.19652013

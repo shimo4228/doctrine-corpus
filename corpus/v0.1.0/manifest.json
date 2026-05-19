@@ -1,0 +1,38 @@
+{
+  "version": "0.1.0",
+  "status": "draft",
+  "generation_date": "TBD",
+  "concept_doi": "TBD",
+  "version_doi": "TBD",
+  "license": "CC0-1.0",
+  "stage": "A",
+  "stage_description": "Hand-written pilot pairs only. No extractor output yet; train.jsonl / valid.jsonl will be assembled in stage D.",
+  "counts": {
+    "total": 5,
+    "by_line": {
+      "akc": 2,
+      "authorship-strategy": 2,
+      "cross-line": 1
+    },
+    "by_lang": {
+      "en": 3,
+      "ja": 2
+    },
+    "by_shape": {
+      "judgment": 4,
+      "contrast": 1
+    }
+  },
+  "source_commits": {
+    "akc": "TBD (to be recorded when extractors run in stage B)",
+    "contemplative-agent": "TBD",
+    "aap": "TBD",
+    "authorship-strategy": "TBD",
+    "zenn-content": "TBD"
+  },
+  "files": {
+    "pilot.jsonl": "hand-written precedent pairs",
+    "train.jsonl": "not present at this stage",
+    "valid.jsonl": "not present at this stage"
+  }
+}

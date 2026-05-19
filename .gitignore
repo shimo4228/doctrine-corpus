@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# uv
+.uv_cache/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+
+# Build / training artifacts (not part of corpus)
+outputs/
+*.safetensors
+*.bin
+
+# Raw extraction intermediates (regenerated from upstream lines)
+data/raw/
+data/intermediate/
+
+# Local notes / scratch
+.scratch/
+TODO.local.md
+
+# HF ephemeral
+.hf-cache/
