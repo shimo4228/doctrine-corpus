@@ -29,6 +29,13 @@ train = [
     # mlx-lm for Apple Silicon LoRA verification (Stage D)
     "mlx-lm>=0.31.0",
 ]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--strict-markers"]
 
 [project.urls]
 Homepage = "https://github.com/shimo4228/doctrine-corpus"

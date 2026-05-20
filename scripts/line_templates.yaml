@@ -66,11 +66,55 @@ lines:
     glossary_parser: null
     thesis_path: null
     thesis_path_ja: null
+    # Two judgment_prefix variants resolved per ADR (see structural_adrs below).
+    # `axiom` is the original four-contemplative-axiom lens used for ADRs that
+    # apply Emptiness / Non-Duality / Mindfulness / Boundless Care as the
+    # reasoning lever. `structural` is for architectural / operational ADRs
+    # (core/adapter separation, config layout, dependency-direction rules) where
+    # invoking the four axioms produces generic "axiom" name-dropping rather
+    # than load-bearing reasoning (Round 1 calibration found this on
+    # CA ADR-0001; see docs/adr/0004 + .scratch/next-session-kickoff.md).
+    # Other lines (akc / aap / authorship-strategy) keep the legacy flat
+    # `{en, ja}` schema — they do not need this split.
     judgment_prefix:
-      en: |
-        Applying the four contemplative axioms (Emptiness / Non-Duality / Mindfulness / Boundless Care), how should this situation be approached, and why?
-      ja: |
-        4 つの contemplative axiom (Emptiness / Non-Duality / Mindfulness / Boundless Care) を踏まえて、以下の状況をどう判断し、その理由は何か。
+      axiom:
+        en: |
+          Applying the four contemplative axioms (Emptiness / Non-Duality / Mindfulness / Boundless Care), how should this situation be approached, and why?
+        ja: |
+          4 つの contemplative axiom (Emptiness / Non-Duality / Mindfulness / Boundless Care) を踏まえて、以下の状況をどう判断し、その理由は何か。
+      structural:
+        en: |
+          In the Contemplative Agent codebase (paper-faithful CCAI scaffolding, core/adapter separation with one-way dependency, memory subsystem aligned to the Yogācāra eight-consciousness frame), how should this structural decision be approached, and why?
+        ja: |
+          Contemplative Agent codebase (paper-faithful CCAI scaffolding、core/adapter separation を一方向依存で実装、memory subsystem を Yogācāra 八識フレームに整合) では、以下の構造的判断をどう扱い、その理由は何か。
+    # ADR numbers (4-digit, string) routed to the `structural` prefix variant.
+    # Initial list seeded from Explore-agent classification 2026-05-21 of the
+    # 41 CA ADRs (axiom 14 + axiom-structural 3 + structural 22 + policy 1 +
+    # excluded 1). Mixed (axiom-structural) ADRs default to axiom; only pure
+    # structural / policy ADRs land here. Author may revise based on Round-2+
+    # rubric feedback.
+    structural_adrs:
+      - "0001"  # Core/Adapter Separation
+      - "0003"  # Config Directory Design
+      - "0005"  # SessionContext Refactoring
+      - "0006"  # Docker Network Isolation
+      - "0008"  # Two-Stage Distill Pipeline
+      - "0010"  # Research Data Sync
+      - "0013"  # Shelving Coding Agent Skills (policy)
+      - "0014"  # Retiring system-spec.md
+      - "0018"  # Per-Caller num_predict + Embedding-Only Stocktake
+      - "0020"  # Pivot Snapshots
+      - "0022"  # Memory Evolution + Hybrid Retrieval (withdrawn by 0034)
+      - "0023"  # Skill-as-Memory Loop (sunset by 0036)
+      - "0024"  # Identity Block Separation (withdrawn by 0030)
+      - "0025"  # Identity History Log Wiring (withdrawn by 0030)
+      - "0029"  # Retire Dormant Provenance
+      - "0030"  # Withdraw Identity Block Separation
+      - "0033"  # AAP Four-Quadrant Lens Note (policy)
+      - "0034"  # Withdraw Memory Evolution / BM25
+      - "0035"  # Sunset Migration Surface
+      - "0036"  # Sunset Skill-as-Memory Loop
+      - "0042"  # Explicit Truncation Contract
     explain_prompt:
       en: "Explain ADR-{number} ({title}), including context, decision, and consequences."
       ja: "ADR-{number} ({title}) を、背景・決定・帰結を含めて解説して。"
@@ -80,6 +124,12 @@ lines:
     thesis_explain_prompt:
       en: "Explain the section '{section_title}' from the {line_name} thesis."
       ja: "{line_name} の thesis から「{section_title}」セクションを解説して。"
+    # Includes both axiom-side and structural-side reasoning levers. The
+    # structural terms (core/adapter, dependency direction, composition root,
+    # one-way dependency, constructor injection, adapter, scaffolding) let
+    # judgment pairs grounded in structural ADRs (see structural_adrs above)
+    # pass the rubric's C2 Framework Application check on the structural
+    # vocabulary rather than name-dropping "axiom" generically.
     judgment_synthesis_framework_keywords:
       - Emptiness
       - Non-Duality
@@ -88,6 +138,13 @@ lines:
       - Boundless Care
       - contemplative
       - axiom
+      - core/adapter
+      - dependency direction
+      - composition root
+      - one-way dependency
+      - constructor injection
+      - adapter
+      - scaffolding
 
   aap:
     name: Agent Attribution Practice

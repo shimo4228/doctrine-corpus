@@ -35,6 +35,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -74,6 +75,135 @@ def extract_decision(a: str) -> str:
     if "\n## " in after_decision:
         after_decision = after_decision.split("\n## ", 1)[0].rstrip()
     return after_decision
+
+
+# Boilerplate H3 headers that the parser must ignore. These are stylistic
+# closers used across ADRs ("### What does not change", "### What stays the
+# same") and carry no decision content — including them would dilute the
+# K=2 facet-diversity hint.
+_BOILERPLATE_H3_RE = re.compile(
+    r"^\s*what\s+(does\s+not\s+change|stays\s+the\s+same)\b",
+    re.IGNORECASE,
+)
+_H3_RE = re.compile(r"^###\s+(.+?)\s*$", re.MULTILINE)
+_NUMBERED_RE = re.compile(r"^(\d+)\.\s+(.+?)\s*$", re.MULTILINE)
+# All bold markers (`**`) are stripped from titles before they reach the
+# user_prompt hint. The hint is consumed as plain prose; preserving markdown
+# emphasis adds no value and a character-set ``strip("*")`` would leak a
+# trailing `**` for inline-bold patterns like ``**Title.** Rest of sentence.``
+# (the failure mode observed on AKC ADR-0008 / ADR-0011 numbered Decisions).
+_BOLD_RE = re.compile(r"\*\*")
+_SUB_ELEMENT_THRESHOLD = 3
+
+
+def _strip_title(raw: str) -> str:
+    """Normalise a sub-element title for the user_prompt facet-diversity hint.
+
+    Removes ``**`` bold markers globally (handles both whole-title wrap and
+    inline bold-prefix patterns) and trims surrounding whitespace.
+    """
+    return _BOLD_RE.sub("", raw).strip()
+
+
+def extract_sub_elements(decision: str) -> list[str]:
+    """Detect numbered or H3 sub-elements in an ADR Decision section.
+
+    Returns the list of sub-element titles. Empty list when no clear
+    sub-element structure exists (singleton decision).
+
+    Detection priority:
+      1. H3 sub-headers (``### Title``). Filters out boilerplate closers
+         like "### What does not change" / "### What stays the same".
+         Returns the surviving titles when 3 or more remain.
+      2. Top-level numbered list (``1. Title``, ``2. Title`` ...).
+         Returns the matched titles when 3 or more appear.
+      3. Otherwise: returns ``[]`` (singleton). The user_prompt then omits
+         the facet-diversity hint.
+
+    Stripping note: leading/trailing ``**`` bold markers around the entire
+    title are removed so the hint reads cleanly; emphasis *inside* the
+    title is preserved.
+    """
+    if not decision:
+        return []
+
+    h3_titles = [_strip_title(m) for m in _H3_RE.findall(decision)]
+    h3_substantive = [t for t in h3_titles if not _BOILERPLATE_H3_RE.match(t)]
+    if len(h3_substantive) >= _SUB_ELEMENT_THRESHOLD:
+        return h3_substantive
+
+    # Numbered-list fallback fires ONLY when no substantive H3 structure
+    # exists at all. Otherwise the numbered list belongs to the body of
+    # an H3 (e.g. ADR-0012 H3 #1's inner four-paragraph plan) and we
+    # must not promote it above the outer H3 hierarchy.
+    if h3_substantive:
+        return []
+
+    numbered_titles = [
+        _strip_title(title) for _, title in _NUMBERED_RE.findall(decision)
+    ]
+    if len(numbered_titles) >= _SUB_ELEMENT_THRESHOLD:
+        return numbered_titles
+
+    return []
+
+
+def _parse_adr_number(adr_source: str) -> str | None:
+    """Extract the 4-digit ADR number from a ``meta.source`` path.
+
+    ``docs/adr/0001-core-adapter-separation.md#decision`` → ``"0001"``.
+    Returns ``None`` when no recognizable ADR number is present (the
+    caller should fall back to the default prefix variant).
+    """
+    match = re.search(r"adr/(\d{4})\b", adr_source)
+    return match.group(1) if match else None
+
+
+def select_judgment_prefix(
+    line_cfg: dict[str, Any],
+    adr_source: str,
+    lang: str,
+) -> str:
+    """Return the judgment_prefix string for a given line config + ADR + lang.
+
+    Supports two schemas in ``scripts/line_templates.yaml`` simultaneously:
+
+    - **Legacy (akc / aap / authorship-strategy)**: ``judgment_prefix: {en, ja}``.
+      Returns ``judgment_prefix[lang]`` directly.
+    - **Variant-aware (contemplative-agent)**: ``judgment_prefix: {axiom, structural}.{en, ja}``
+      + ``structural_adrs: [<4-digit ADR number>, ...]``. The ADR number is
+      parsed out of ``adr_source``; if it appears in ``structural_adrs``, the
+      ``structural`` variant is returned, otherwise the ``axiom`` variant.
+
+    Defensive fallbacks: if the new schema is present but ``structural_adrs``
+    is missing or the ADR number is unparseable, the ``axiom`` variant is
+    returned (preserves Round 1 behavior for unclassified ADRs).
+
+    **Asymmetry with `extract_adrs.py`**: that script (which builds the static
+    `data/adrs.jsonl` source pairs) intentionally always uses the ``axiom``
+    variant when it sees the variant-aware schema. This function is meant for
+    *synthesis-prompt construction* and is the only place per-ADR ``structural``
+    routing happens. Do not import this function into `extract_adrs.py` — the
+    duplication is deliberate to keep `adrs.jsonl` free of per-ADR
+    framing-prefix variance (the rubric's Bilingual Pair Equivalence check
+    would flag mismatched EN/JA framings if both schemas leaked there).
+    """
+    prefix_cfg = line_cfg["judgment_prefix"]
+
+    # Schema discrimination: variant-aware schema is indicated by the presence
+    # of the "axiom" key (the default variant). Flat schema has language keys
+    # directly. Distinguishing by *axiom-key presence* rather than *lang-key
+    # presence* avoids a partially-populated flat schema (e.g. only "en")
+    # falling through to the variant-aware branch and raising KeyError.
+    if "axiom" not in prefix_cfg:
+        # Legacy flat schema: {en, ja}
+        return prefix_cfg[lang]
+
+    # Variant-aware schema: {axiom, structural}.{en, ja}
+    structural_adrs = set(line_cfg.get("structural_adrs", []) or [])
+    adr_number = _parse_adr_number(adr_source)
+    variant = "structural" if adr_number and adr_number in structural_adrs else "axiom"
+    return prefix_cfg[variant][lang]
 
 
 def load_pilot_few_shot(pilot_path: Path) -> dict[tuple[str, str], dict]:
@@ -139,6 +269,10 @@ def build_system_prompt(
         f"2. Apply the {line_name} framework explicitly in the A, naming at "
         f"least one of: {keywords_display}.\n"
         f"3. Reach a Decision logically equivalent to the source ADR's Decision.\n\n"
+        f"If the source Decision contains multiple numbered or sub-headed "
+        f"elements, the {k} alternative pairs MUST engage DIFFERENT elements "
+        f"as their primary reasoning anchor — do not collapse them onto the "
+        f"same element.\n\n"
         f"Each pair MUST NOT:\n"
         f"- Introduce framework concepts not present in the source ADR.\n"
         f"- Change the Decision.\n"
@@ -159,6 +293,8 @@ def build_user_prompt(
     lang: str,
     few_shot: dict | None,
     k: int,
+    judgment_framing: str | None = None,
+    sub_elements: list[str] | None = None,
 ) -> str:
     lang_full = LANG_FULL_NAME.get(lang, lang)
     few_shot_block = (
@@ -166,11 +302,36 @@ def build_user_prompt(
         if few_shot is not None
         else "(no few-shot pair available for this line; follow the rules strictly)"
     )
+
+    framing_block = (
+        f"Judgment framing for this ADR (use this lens when shaping each Q "
+        f"and grounding each A):\n{judgment_framing.strip()}\n\n"
+        if judgment_framing
+        else ""
+    )
+
+    if sub_elements:
+        enumerated = "\n".join(
+            f"  {i + 1}. {title}" for i, title in enumerate(sub_elements)
+        )
+        sub_element_block = (
+            f"The source Decision contains {len(sub_elements)} sub-elements "
+            f"(facets that the {k} alternatives MUST span):\n{enumerated}\n\n"
+            f"Each of the {k} alternatives MUST anchor on a DIFFERENT "
+            f"sub-element from the list above. Pick sub-elements that are "
+            f"conceptually distinct, not consecutive restatements of the "
+            f"same facet.\n\n"
+        )
+    else:
+        sub_element_block = ""
+
     return (
         f"Source ADR: {adr_source}\n\n"
+        f"{framing_block}"
         f"Original Context:\n{context}\n\n"
         f"Original Decision (DO NOT CHANGE this — your generated pairs must "
         f"reach a logically equivalent Decision):\n{decision}\n\n"
+        f"{sub_element_block}"
         f"Few-shot example (existing judgment pair from doctrine-corpus, "
         f"target language: {lang}):\n{few_shot_block}\n\n"
         f"Now generate {k} alternative judgment-eliciting Q&A pairs in "
@@ -241,6 +402,10 @@ def main() -> None:
 
             few_shot = pick_few_shot(line_key, lang, pilot_index)
             adr_source = meta.get("source", "").split("#", 1)[0]
+            judgment_framing = select_judgment_prefix(
+                line_cfg, adr_source=adr_source, lang=lang
+            )
+            sub_elements = extract_sub_elements(decision)
 
             system_prompt = build_system_prompt(
                 line_name=line_name, k=args.k, framework_keywords=framework_keywords
@@ -252,6 +417,8 @@ def main() -> None:
                 lang=lang,
                 few_shot=few_shot,
                 k=args.k,
+                judgment_framing=judgment_framing,
+                sub_elements=sub_elements,
             )
 
             out_entry = {
@@ -263,6 +430,7 @@ def main() -> None:
                 "user_prompt": user_prompt,
                 "source_decision": decision,
                 "framework_keywords": framework_keywords,
+                "sub_elements": sub_elements,
             }
             dst.write(json.dumps(out_entry, ensure_ascii=False) + "\n")
             written += 1

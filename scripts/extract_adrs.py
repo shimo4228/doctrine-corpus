@@ -219,7 +219,18 @@ def judgment_example(adr: ADR, line_cfg: dict[str, Any]) -> dict | None:
     decision = adr.sections.get("decision")
     if not context or not decision:
         return None
-    prefix = line_cfg["judgment_prefix"][adr.lang].strip()
+    prefix_cfg = line_cfg["judgment_prefix"]
+    # Legacy flat schema `{en, ja}` (akc / aap / authorship-strategy) vs the
+    # variant-aware `{axiom, structural}.{en, ja}` schema introduced for CA
+    # in 2026-05-21 (see docs/adr/0004 lineage). The source-side pair always
+    # uses the axiom variant; flavor-aware selection per ADR happens
+    # downstream in scripts/prepare_judgment_prompts.py:select_judgment_prefix.
+    # Detect schema by "axiom"-key presence (not by lang-key presence) so a
+    # partially-populated flat schema does not fall through and KeyError.
+    if "axiom" not in prefix_cfg:
+        prefix = prefix_cfg[adr.lang].strip()
+    else:
+        prefix = prefix_cfg["axiom"][adr.lang].strip()
     instruction = f"{prefix}\n\n{context}"
     completion = f"## Decision\n\n{decision}"
     consequences = adr.sections.get("consequences")
