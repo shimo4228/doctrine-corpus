@@ -1,25 +1,31 @@
-"""Validate Claude Code session-generated judgment.jsonl pairs.
+"""Fire-alarm validator for Claude Code session-generated judgment.jsonl pairs.
 
-Each pair must pass five checks:
+This script is **Layer 1** of the two-layer validation gate defined in
+[ADR-0004](../docs/adr/0004-rubric-based-semantic-judgment-validation.md).
+It catches **structural and surface-pattern regressions only**. Semantic
+quality (decision equivalence, framework application, K=2 facet diversity,
+anti-mannerism) is judged by Layer 2 — the project-local Claude Code agent
+at `doctrine-corpus/.claude/agents/judgment-pair-reviewer.md`.
 
-1. **Schema** — meta has {line, source, lang, shape}, shape == "judgment".
-2. **Decision drift** — content tokens from the source ADR's Decision section
-   appear in the generated A with >=50% coverage. Source Decision is looked
-   up from `data/adrs.jsonl` by meta.source path (stripping any #fragment).
-3. **Framework keyword** — at least one of the line's
-   `judgment_synthesis_framework_keywords` appears in the generated A.
-4. **Q novelty** — the generated Q does not contain the first 200 characters
-   of the source ADR's Context verbatim (prevents chunk-as-completion regression).
-5. **Q anti-chunk** — the Q does not use chunk-as-completion phrasing patterns
-   ("Zenn 記事を書い…", "ADR…を解説", "write an article", "explain ADR-").
+Each pair is checked for:
 
-The checks are intentionally coarse — Stage D's `eval_compare.py` will run
-the full semantic comparison. validate_judgment.py is the round-by-round
-gate during Claude Code session-mediated generation.
+1. **Schema** — meta has {line, source, lang, shape}, shape == "judgment",
+   messages are non-empty.
+2. **Q anti-chunk** — Q does not match chunk-as-completion regex patterns
+   ("Zenn 記事を書い…", "ADR…を解説", "write an article", "explain ADR-…").
+3. **Q novelty** — Q does not contain the first 200 characters of the
+   source ADR's Context verbatim (prevents chunk-as-completion regression).
 
-Trust boundary: generated content is untrusted (rules/common/security.md).
+The vocabulary-frequency overlap check (`decision_drift_score`) and the
+keyword-presence check (`has_framework_keyword`) that previous versions
+of this script ran were **removed** in ADR-0004. Vocabulary overlap and
+substring matching cannot measure judgment equivalence — that's the
+rubric agent's job.
+
+Trust boundary: generated content is untrusted
+([`~/.claude/rules/common/security.md`](file://~/.claude/rules/common/security.md)).
 The validator enforces meta field types and detects regression patterns
-but does not sanitize message bodies — hand-review is the gate.
+but does not sanitize message bodies — rubric review is the next gate.
 
 Usage:
     python scripts/validate_judgment.py data/judgment.jsonl
@@ -37,14 +43,8 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
-import yaml
-
 REPO_ROOT = Path(__file__).parent.parent
-DEFAULT_TEMPLATES = REPO_ROOT / "scripts" / "line_templates.yaml"
 DEFAULT_ADRS = REPO_ROOT / "data" / "adrs.jsonl"
-
-EN_WORD_RE = re.compile(r"\b[a-zA-Z][a-zA-Z\-]{3,}\b")
-JA_RUN_RE = re.compile(r"[一-龯ぁ-んァ-ヶー]{4,}")
 
 ANTI_CHUNK_PATTERNS_EN = [
     re.compile(r"\bwrite an? article\b", re.IGNORECASE),
@@ -63,25 +63,25 @@ REQUIRED_META_KEYS = ("line", "source", "lang", "shape")
 
 
 def split_judgment_q(q: str) -> tuple[str, str]:
+    """Return (judgment_prefix, context) from the generated Q text.
+
+    Q format produced by the generator is `{prefix}\n\n{context}`. When no
+    delimiter is present, the whole Q is treated as context.
+    """
     parts = q.split("\n\n", 1)
     if len(parts) < 2:
         return q.strip(), ""
     return parts[0].strip(), parts[1].strip()
 
 
-def extract_decision(a: str) -> str:
-    marker = "## Decision"
-    if marker not in a:
-        return a.strip()
-    after_decision = a.split(marker, 1)[1].lstrip("\n").strip()
-    if "\n## " in after_decision:
-        after_decision = after_decision.split("\n## ", 1)[0].rstrip()
-    return after_decision
+def load_source_lookup(adrs_path: Path) -> dict[str, str]:
+    """Index data/adrs.jsonl judgment entries by (source_path, lang) → Context.
 
-
-def load_source_lookup(adrs_path: Path) -> dict[str, dict[str, str]]:
-    """Index adrs.jsonl judgment entries by (source_path, lang) → {context, decision}."""
-    index: dict[str, dict[str, str]] = {}
+    Only the Context portion of the source ADR Q is retained; the Decision
+    side is no longer used by this script (semantic comparison moved to the
+    rubric agent).
+    """
+    index: dict[str, str] = {}
     if not adrs_path.exists():
         return index
     with adrs_path.open(encoding="utf-8") as f:
@@ -106,40 +106,10 @@ def load_source_lookup(adrs_path: Path) -> dict[str, dict[str, str]]:
             if len(messages) < 2:
                 continue
             q = messages[0].get("content", "") if isinstance(messages[0], dict) else ""
-            a = messages[1].get("content", "") if isinstance(messages[1], dict) else ""
             _, context = split_judgment_q(q)
-            decision = extract_decision(a)
             if key not in index:
-                index[key] = {"context": context, "decision": decision}
+                index[key] = context
     return index
-
-
-def extract_content_tokens(text: str, top_n: int = 10) -> set[str]:
-    """Return up to `top_n` most-frequent content tokens (length >= 4)."""
-    en = EN_WORD_RE.findall(text.lower())
-    ja = JA_RUN_RE.findall(text)
-    tokens = en + ja
-    most_common = [tok for tok, _ in Counter(tokens).most_common(top_n)]
-    return set(most_common)
-
-
-def decision_drift_score(source_decision: str, generated_a: str) -> tuple[float, set[str]]:
-    """Return (coverage_ratio, missing_tokens)."""
-    source_tokens = extract_content_tokens(source_decision, top_n=10)
-    if not source_tokens:
-        return 1.0, set()
-    gen_lower = generated_a.lower()
-    found = {t for t in source_tokens if t.lower() in gen_lower or t in generated_a}
-    missing = source_tokens - found
-    ratio = len(found) / len(source_tokens)
-    return ratio, missing
-
-
-def has_framework_keyword(generated_a: str, keywords: list[str]) -> tuple[bool, str | None]:
-    for kw in keywords:
-        if kw.lower() in generated_a.lower():
-            return True, kw
-    return False, None
 
 
 def q_anti_chunk_violation(q: str, lang: str) -> str | None:
@@ -161,8 +131,7 @@ def q_novelty_violation(q: str, source_context: str, window: int = 200) -> bool:
 
 def validate_entry(
     entry: dict[str, Any],
-    source_lookup: dict[str, dict[str, str]],
-    framework_keywords_by_line: dict[str, list[str]],
+    source_lookup: dict[str, str],
 ) -> dict[str, Any]:
     """Return per-entry validation result with PASS/FAIL flags and reasons."""
     failures: list[str] = []
@@ -189,38 +158,22 @@ def validate_entry(
     if not q or not a:
         failures.append("schema:empty_messages")
 
-    line = meta.get("line", "")
     lang = meta.get("lang", "en")
     source = meta.get("source", "").split("#", 1)[0]
     src_key = f"{source}|{lang}"
-    src = source_lookup.get(src_key)
-    if not src:
+    src_context = source_lookup.get(src_key, "")
+    if not src_context:
         # Fallback: same source other lang
         for other_lang in ("en", "ja"):
             if other_lang == lang:
                 continue
-            alt_src = source_lookup.get(f"{source}|{other_lang}")
-            if alt_src:
-                src = alt_src
+            alt = source_lookup.get(f"{source}|{other_lang}", "")
+            if alt:
+                src_context = alt
                 break
 
-    drift_ratio = 1.0
-    missing_tokens: set[str] = set()
-    if src and a:
-        drift_ratio, missing_tokens = decision_drift_score(src["decision"], a)
-        if drift_ratio < 0.5:
-            failures.append(f"drift:{drift_ratio:.2f}")
-
-    kw_ok = True
-    kw_match: str | None = None
-    keywords = framework_keywords_by_line.get(line, [])
-    if a and keywords:
-        kw_ok, kw_match = has_framework_keyword(a, keywords)
-        if not kw_ok:
-            failures.append("framework:none")
-
-    if q and src:
-        if q_novelty_violation(q, src["context"]):
+    if q and src_context:
+        if q_novelty_violation(q, src_context):
             failures.append("q_novelty:verbatim_200")
 
     if q:
@@ -231,9 +184,6 @@ def validate_entry(
     return {
         "passed": not failures,
         "failures": failures,
-        "drift_ratio": drift_ratio,
-        "missing_tokens": list(missing_tokens),
-        "framework_match": kw_match,
         "meta": meta,
         "q_preview": q[:120],
         "a_preview": a[:120],
@@ -241,9 +191,14 @@ def validate_entry(
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser()
+    ap = argparse.ArgumentParser(
+        description=(
+            "Fire-alarm validator for data/judgment.jsonl. Catches structural "
+            "and regex regressions only. For semantic quality, invoke the "
+            "judgment-pair-reviewer Claude Code agent after this script passes."
+        )
+    )
     ap.add_argument("path", type=Path, help="Path to judgment.jsonl")
-    ap.add_argument("--templates", type=Path, default=DEFAULT_TEMPLATES)
     ap.add_argument("--adrs", type=Path, default=DEFAULT_ADRS)
     ap.add_argument(
         "--tail", type=int, default=None, help="Validate only the last N entries"
@@ -256,13 +211,6 @@ def main() -> None:
     if not args.path.exists():
         print(f"ERROR: {args.path} does not exist", file=sys.stderr)
         sys.exit(1)
-
-    with args.templates.open(encoding="utf-8") as f:
-        config = yaml.safe_load(f)
-    framework_keywords_by_line: dict[str, list[str]] = {
-        line_key: cfg.get("judgment_synthesis_framework_keywords", [])
-        for line_key, cfg in config["lines"].items()
-    }
 
     source_lookup = load_source_lookup(args.adrs)
 
@@ -284,9 +232,7 @@ def main() -> None:
 
     entries = all_entries[-args.tail :] if args.tail else all_entries
 
-    results = [
-        validate_entry(e, source_lookup, framework_keywords_by_line) for e in entries
-    ]
+    results = [validate_entry(e, source_lookup) for e in entries]
 
     n = len(results)
     n_pass = sum(1 for r in results if r["passed"])
@@ -306,21 +252,17 @@ def main() -> None:
             kind = f_str.split(":", 1)[0]
             failure_kinds[kind] += 1
 
-    drift_ratios = [r["drift_ratio"] for r in results if r["meta"].get("line")]
-    avg_drift = (
-        sum(drift_ratios) / len(drift_ratios) if drift_ratios else 0.0
-    )
-    framework_inclusion = (
-        sum(1 for r in results if r["framework_match"]) / n if n else 0.0
-    )
     novelty_violations = sum(
         1 for r in results for f in r["failures"] if f.startswith("q_novelty")
     )
     novelty_rate = (n - novelty_violations) / n if n else 1.0
 
-    print(f"Validated {n} entries from {args.path}")
-    print(f"  PASS: {n_pass}  ({n_pass / n:.0%})" if n else "  (no entries)")
-    print(f"  FAIL: {n_fail}  ({n_fail / n:.0%})" if n else "")
+    print(f"Validated {n} entries from {args.path} (Layer 1: fire alarm)")
+    if n:
+        print(f"  PASS: {n_pass}  ({n_pass / n:.0%})")
+        print(f"  FAIL: {n_fail}  ({n_fail / n:.0%})")
+    else:
+        print("  (no entries)")
     print()
 
     print("Per-line PASS / TOTAL:")
@@ -331,15 +273,14 @@ def main() -> None:
     print()
 
     print("Aggregate metrics:")
-    print(f"  Avg Decision-token coverage: {avg_drift:.2f}")
-    print(f"  Framework keyword inclusion: {framework_inclusion:.0%}")
     print(f"  Q novelty rate:              {novelty_rate:.0%}")
     print()
 
-    print("Failure kinds:")
-    for kind, count in failure_kinds.most_common():
-        print(f"  {kind:20s} {count}")
-    print()
+    if failure_kinds:
+        print("Failure kinds:")
+        for kind, count in failure_kinds.most_common():
+            print(f"  {kind:20s} {count}")
+        print()
 
     failed = [r for r in results if not r["passed"]]
     if failed and args.top_fail > 0:
@@ -354,6 +295,12 @@ def main() -> None:
             print(f"    Q: {r['q_preview']}")
             print(f"    A: {r['a_preview']}")
             print()
+
+    if n_pass == n and n > 0:
+        print(
+            "Next step: invoke the judgment-pair-reviewer agent for semantic "
+            "validation (Layer 2). See ADR-0004."
+        )
 
 
 if __name__ == "__main__":

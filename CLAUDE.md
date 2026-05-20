@@ -88,17 +88,34 @@ The Stage B `data/adrs.jsonl` carries one judgment pair per ADR per language, wi
 
 1. `python scripts/prepare_judgment_prompts.py` — emits `data/judgment_prompts.jsonl` (113 entry × K=2). LLM call: zero.
 2. **Round 1 gate**: in-session generation of the first 10 entries × K=2 = 20 pairs into `data/judgment.jsonl`. Hand-review mandatory.
-3. `python scripts/validate_judgment.py data/judgment.jsonl --top-fail 5` — gate metrics.
-4. Round 2–7: ~40 entries × K=2 = ~80 pairs per round, with `--tail 80` validation after each round.
+3. `python scripts/validate_judgment.py data/judgment.jsonl --top-fail 5` — **Layer 1 fire alarm** (schema + Q novelty + Q anti-chunk).
+4. Invoke the `judgment-pair-reviewer` Claude Code agent — **Layer 2 rubric** (8-criterion semantic verdict).
+5. User spot-checks the rubric's WEAK/FAIL findings.
+6. Round 2–7: ~40 entries × K=2 = ~80 pairs per round, with `--tail 80` Layer 1 + Layer 2 review after each round.
+
+### Validation layers
+
+Validation is split into two layers (see [ADR-0004](docs/adr/0004-rubric-based-semantic-judgment-validation.md)):
+
+- **Layer 1 — fire alarm** (`scripts/validate_judgment.py`): schema, q_novelty (verbatim 200-char detection in Q), q_anti_chunk (regex). Catches structural and obvious surface regressions only. Cannot measure judgment quality.
+- **Layer 2 — rubric** (`doctrine-corpus/.claude/agents/judgment-pair-reviewer.md`): 8-criterion PASS/WEAK/FAIL judgment over Decision Equivalence, Framework Application, Situation Novelty, K=2 Facet Diversity, Style-without-Substance Guard, Bilingual Pair Equivalence, and delegated metadata / anti-chunk confirmations. Project-local agent on `opus`.
+
+Run Layer 1 first; if it passes, invoke Layer 2 via the agent. User spot-check of Layer 2's WEAK/FAIL findings is mandatory before the next round.
 
 ### Round 1 early-stop conditions
 
-Detect any of the following → stop generation, redesign the prompt, redo Round 1:
+Stop and re-design the prompt on any of:
 
-- Decision drift rate > 30% (validator's `drift` failure kind)
-- Framework keyword inclusion < 60% (validator's `framework:none`)
-- Chunk-as-completion phrasing in Q (e.g. "write a Zenn article", "explain ADR-NNNN") in 3+ pairs
-- A pair whose A contains the source ADR's first 200 Context characters verbatim
+**Fire-alarm signals (`scripts/validate_judgment.py`):**
+- `q_novelty:verbatim_200` in 1+ pairs
+- `q_anti_chunk:*` matches in 3+ pairs
+- `schema:*` failures in any pair
+
+**Rubric signals (`judgment-pair-reviewer` agent):**
+- FAIL rate > 15% on Criterion 1 (Decision Equivalence), 2 (Framework Application), or 5 (Style-without-Substance Guard) — load-bearing axes
+- WEAK rate > 30% on Criterion 4 (K=2 Facet Diversity) — facet axes too narrow
+
+User spot-check of WEAK/FAIL flagged pairs is mandatory before Round 2.
 
 ### Per-pair invariants (every generated pair must hold)
 

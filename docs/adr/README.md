@@ -9,6 +9,7 @@ Design decisions for **doctrine-corpus** itself. These ADRs describe how Q&A pai
 | 0001 | Corpus as primary artifact (LoRA as derived side product) | drafted |
 | 0002 | Judgment-eliciting Q&A, not chunk-as-completion | drafted |
 | 0003 | Bilingual pair policy (EN + JA both as separate examples) | drafted |
+| [0004](0004-rubric-based-semantic-judgment-validation.md) | Rubric-based semantic judgment validation (fire alarm + rubric agent) | drafted |
 
 ## Format
 
