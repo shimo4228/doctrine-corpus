@@ -72,7 +72,42 @@ Allowed `line` values: `akc`, `contemplative-agent`, `aap`, `authorship-strategy
 
 The plan ships in five stages (see `~/.claude/plans/...`). At each stage, hand-review a 20-example sample before scaling. If a stage's sample shows regression toward chunk-as-completion or voice-only transfer, stop and revisit the extractor design before generating more.
 
-The plan's most important early-stop gate is **Stage D**: train a verification LoRA on the assembled corpus and run `eval/eval_compare.py`. If the resulting LoRA reproduces the Phase 0 "mannerism wrapper" symptom (voice transferred, content hallucinated), the corpus is still chunk-shaped and the extractors need revisiting.
+The plan's most important early-stop gate is **Stage D**: train a verification LoRA on the assembled corpus and run `eval/eval_compare.py`. If the resulting LoRA reproduces the Phase 0 "mannerism wrapper" symptom (voice transferred, content hallucinated), the corpus is still chunk-shaped and the extractors need revisiting. The LoRA itself is **verification only, not a publish target** — the corpus is the deliverable; the LoRA is used as a disposable test runner against `eval/prompt_bank.yaml`.
+
+## Judgment generation protocol (Stage C session-mediated synthesis)
+
+`data/judgment.jsonl` is generated **inside a Claude Code session**. No Anthropic / OpenAI SDK call. Rationale: the author runs on Claude Max (flat subscription); SDK calls would add metered cost and an unnecessary API key management surface. This is also the recursive application of Authorship Strategy Layer 4 tactic 7 (LLM-first ingest) — the corpus that operationalizes the tactic is itself produced in an LLM-first workflow.
+
+### Why this file exists at all
+
+The Stage B `data/adrs.jsonl` carries one judgment pair per ADR per language, with Q = `{framework prefix}\n\n{ADR Context verbatim}` and A = `{Decision}`. That gives only **one situation entry per Decision** — and the Q is the original Context near-verbatim. Training on that alone risks the Phase 0 failure mode: the model learns the surface mapping from Context phrasing to Decision phrasing, not the judgment itself.
+
+`judgment.jsonl` adds **K=2 alternative situations per ADR** that reach the same Decision through different entry points. With the original ADR pair plus K=2 alternatives, every Decision has three (or more) situation entries, all decoupled from the original Context surface form. This is what shifts the corpus from chunk-as-completion shape to judgment-eliciting shape.
+
+### Pipeline
+
+1. `python scripts/prepare_judgment_prompts.py` — emits `data/judgment_prompts.jsonl` (113 entry × K=2). LLM call: zero.
+2. **Round 1 gate**: in-session generation of the first 10 entries × K=2 = 20 pairs into `data/judgment.jsonl`. Hand-review mandatory.
+3. `python scripts/validate_judgment.py data/judgment.jsonl --top-fail 5` — gate metrics.
+4. Round 2–7: ~40 entries × K=2 = ~80 pairs per round, with `--tail 80` validation after each round.
+
+### Round 1 early-stop conditions
+
+Detect any of the following → stop generation, redesign the prompt, redo Round 1:
+
+- Decision drift rate > 30% (validator's `drift` failure kind)
+- Framework keyword inclusion < 60% (validator's `framework:none`)
+- Chunk-as-completion phrasing in Q (e.g. "write a Zenn article", "explain ADR-NNNN") in 3+ pairs
+- A pair whose A contains the source ADR's first 200 Context characters verbatim
+
+### Per-pair invariants (every generated pair must hold)
+
+- `meta.line` and `meta.lang` match the source ADR
+- `meta.source` is the source ADR path with `#decision` fragment (same as `data/adrs.jsonl` for that ADR)
+- `meta.shape == "judgment"`
+- Q presents a **new** situation, not the original Context
+- A names at least one term from the line's `judgment_synthesis_framework_keywords` (see `scripts/line_templates.yaml`)
+- A reaches a Decision **logically equivalent** to the source ADR's Decision — paraphrasing OK, semantic change is not
 
 ## Writing conventions
 
