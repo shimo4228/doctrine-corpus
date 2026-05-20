@@ -20,11 +20,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-extract = [
-    # LLM call for judgment Q&A generation (Stage C)
-    "anthropic>=0.40.0",
-    "openai>=1.50.0",
-]
+# Stage C judgment Q&A is generated inside the Claude Code session that
+# runs `scripts/prepare_judgment_prompts.py` — no Anthropic / OpenAI SDK
+# dependency is required. Earlier drafts of pyproject.toml listed an
+# `extract = [anthropic, openai]` group; it was removed when Stage C
+# pivoted away from API-mediated generation.
 train = [
     # mlx-lm for Apple Silicon LoRA verification (Stage D)
     "mlx-lm>=0.31.0",

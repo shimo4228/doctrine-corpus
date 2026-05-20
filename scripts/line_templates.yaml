@@ -1,9 +1,16 @@
 # Line-specific extractor templates.
 #
 # Consumed by:
-#   - scripts/extract_adrs.py (judgment_prefix, explain_prompt, adr_dir, has_ja)
-#   - scripts/extract_glossary.py (Stage C, not yet implemented)
-#   - scripts/extract_thesis.py (Stage C, not yet implemented)
+#   - scripts/extract_adrs.py
+#     (judgment_prefix, explain_prompt, adr_dir, has_ja)
+#   - scripts/extract_glossary.py
+#     (glossary_path, glossary_path_ja, definition_prompt, glossary_parser)
+#   - scripts/extract_thesis.py
+#     (thesis_path, thesis_path_ja, thesis_explain_prompt)
+#   - scripts/prepare_judgment_prompts.py
+#     (name, judgment_synthesis_framework_keywords)
+#   - scripts/validate_judgment.py
+#     (judgment_synthesis_framework_keywords)
 #
 # Layout: `lines.<key>` where `<key>` matches the `meta.line` value emitted in
 # the corpus JSONL. Keys are the canonical short names per CLAUDE.md
@@ -14,6 +21,14 @@ lines:
     name: Agent Knowledge Cycle
     adr_dir: /Users/shimomoto_tatsuya/MyAI_Lab/agent-knowledge-cycle/docs/adr
     has_ja: false
+    # AKC glossary is a multi-language translation table, not concept
+    # definitions — skipped from glossary extraction. Concept-level coverage
+    # is provided by ADR explain + judgment pairs already.
+    glossary_path: null
+    glossary_path_ja: null
+    glossary_parser: null
+    thesis_path: null
+    thesis_path_ja: null
     judgment_prefix:
       en: |
         In the Agent Knowledge Cycle program (six phases: Research / Extract / Curate / Promote / Measure / Maintain), how should this situation be approached, and why?
@@ -22,11 +37,35 @@ lines:
     explain_prompt:
       en: "Explain ADR-{number} ({title}), including context, decision, and consequences."
       ja: "ADR-{number} ({title}) を、背景・決定・帰結を含めて解説して。"
+    definition_prompt:
+      en: "What does '{term}' mean in {line_name}?"
+      ja: "{line_name} における「{term}」とは何か。"
+    thesis_explain_prompt:
+      en: "Explain the section '{section_title}' from the {line_name} thesis."
+      ja: "{line_name} の thesis から「{section_title}」セクションを解説して。"
+    judgment_synthesis_framework_keywords:
+      - Research
+      - Extract
+      - Curate
+      - Promote
+      - Measure
+      - Maintain
+      - six phases
+      - cycle
+      - knowledge cycle
 
   contemplative-agent:
     name: Contemplative Agent
     adr_dir: /Users/shimomoto_tatsuya/MyAI_Lab/contemplative-moltbook/docs/adr
     has_ja: true
+    # CA glossary is a multi-language translation table inherited from AKC,
+    # not concept definitions — skipped from glossary extraction. Concept-
+    # level coverage is provided by ADR explain + judgment pairs already.
+    glossary_path: null
+    glossary_path_ja: null
+    glossary_parser: null
+    thesis_path: null
+    thesis_path_ja: null
     judgment_prefix:
       en: |
         Applying the four contemplative axioms (Emptiness / Non-Duality / Mindfulness / Boundless Care), how should this situation be approached, and why?
@@ -35,11 +74,30 @@ lines:
     explain_prompt:
       en: "Explain ADR-{number} ({title}), including context, decision, and consequences."
       ja: "ADR-{number} ({title}) を、背景・決定・帰結を含めて解説して。"
+    definition_prompt:
+      en: "What does '{term}' mean in {line_name}?"
+      ja: "{line_name} における「{term}」とは何か。"
+    thesis_explain_prompt:
+      en: "Explain the section '{section_title}' from the {line_name} thesis."
+      ja: "{line_name} の thesis から「{section_title}」セクションを解説して。"
+    judgment_synthesis_framework_keywords:
+      - Emptiness
+      - Non-Duality
+      - Non-duality
+      - Mindfulness
+      - Boundless Care
+      - contemplative
+      - axiom
 
   aap:
     name: Agent Attribution Practice
     adr_dir: /Users/shimomoto_tatsuya/MyAI_Lab/agent-attribution-practice/docs/adr
     has_ja: true
+    glossary_path: /Users/shimomoto_tatsuya/MyAI_Lab/agent-attribution-practice/docs/glossary.md
+    glossary_path_ja: /Users/shimomoto_tatsuya/MyAI_Lab/agent-attribution-practice/docs/glossary.ja.md
+    glossary_parser: section
+    thesis_path: /Users/shimomoto_tatsuya/MyAI_Lab/agent-attribution-practice/docs/thesis.md
+    thesis_path_ja: /Users/shimomoto_tatsuya/MyAI_Lab/agent-attribution-practice/docs/thesis.ja.md
     judgment_prefix:
       en: |
         Under the Agent Attribution Practice principles (security-by-absence, deterministic prohibition at scaffolding, untrusted-content boundary), how should this situation be approached, and why?
@@ -48,11 +106,33 @@ lines:
     explain_prompt:
       en: "Explain ADR-{number} ({title}), including context, decision, and consequences."
       ja: "ADR-{number} ({title}) を、背景・決定・帰結を含めて解説して。"
+    definition_prompt:
+      en: "What does '{term}' mean in {line_name}?"
+      ja: "{line_name} における「{term}」とは何か。"
+    thesis_explain_prompt:
+      en: "Explain the section '{section_title}' from the {line_name} thesis."
+      ja: "{line_name} の thesis から「{section_title}」セクションを解説して。"
+    judgment_synthesis_framework_keywords:
+      - security-by-absence
+      - deterministic prohibition
+      - untrusted-content boundary
+      - untrusted content
+      - prohibition-strength
+      - scaffolding
+      - Business AI Quadrants
+      - Autonomous Agentic Loop
+      - attribution
+      - accountability
 
   authorship-strategy:
     name: Authorship Strategy
     adr_dir: /Users/shimomoto_tatsuya/MyAI_Lab/authorship-strategy/docs/adr
     has_ja: true
+    glossary_path: /Users/shimomoto_tatsuya/MyAI_Lab/authorship-strategy/docs/glossary.md
+    glossary_path_ja: /Users/shimomoto_tatsuya/MyAI_Lab/authorship-strategy/docs/glossary.ja.md
+    glossary_parser: section
+    thesis_path: /Users/shimomoto_tatsuya/MyAI_Lab/authorship-strategy/docs/thesis.md
+    thesis_path_ja: /Users/shimomoto_tatsuya/MyAI_Lab/authorship-strategy/docs/thesis.ja.md
     judgment_prefix:
       en: |
         Under Authorship Strategy (three-axis inversion: scarcity → diffusion / exclusivity → derivation / enclosure → openness), how should this situation be approached, and why?
@@ -61,3 +141,22 @@ lines:
     explain_prompt:
       en: "Explain ADR-{number} ({title}), including context, decision, and consequences."
       ja: "ADR-{number} ({title}) を、背景・決定・帰結を含めて解説して。"
+    definition_prompt:
+      en: "What does '{term}' mean in {line_name}?"
+      ja: "{line_name} における「{term}」とは何か。"
+    thesis_explain_prompt:
+      en: "Explain the section '{section_title}' from the {line_name} thesis."
+      ja: "{line_name} の thesis から「{section_title}」セクションを解説して。"
+    judgment_synthesis_framework_keywords:
+      - three-axis inversion
+      - 3 軸反転
+      - scarcity
+      - diffusion
+      - exclusivity
+      - derivation
+      - enclosure
+      - openness
+      - Authenticity
+      - Attribution Diffusion
+      - LLM-mediated
+      - LLM-first

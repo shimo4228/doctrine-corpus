@@ -5,8 +5,8 @@
   "concept_doi": "TBD",
   "version_doi": "TBD",
   "license": "CC0-1.0",
-  "stage": "B",
-  "stage_description": "Hand-written pilot pairs + Stage B port of extract_zenn.py / extract_adrs.py / build_dataset.py is done; extractor output lives in data/ (gitignored) and is not yet folded into corpus/v0.1.0/train.jsonl. Final train/valid assembly waits for Stage C glossary + thesis + judgment-LLM extractors and Stage D verification.",
+  "stage": "C",
+  "stage_description": "Stage C extractors (glossary / thesis / judgment_qa scaffolding) are complete. Glossary (AAP + AS) and thesis (AAP + AS) output is written to data/. Judgment Q&A synthesis prompts are prepared in data/judgment_prompts.jsonl; synthesis itself runs inside a Claude Code session (no SDK call, no metered cost), gated by 20-entry hand-review rounds via scripts/validate_judgment.py. AKC and Contemplative Agent glossaries were intentionally skipped because their glossary files are multi-language translation tables, not concept definitions; concept-level coverage is provided by ADR explain + judgment pairs. Final train/valid assembly waits for Stage D verification LoRA.",
   "counts": {
     "total": 5,
     "by_line": {
@@ -24,11 +24,11 @@
     }
   },
   "source_commits": {
-    "akc": "TBD (to be recorded when extractors run in stage B)",
-    "contemplative-agent": "TBD",
-    "aap": "TBD",
-    "authorship-strategy": "TBD",
-    "zenn-content": "TBD"
+    "akc": "f70554ea92cf3bca72da273d35a0db370c95cff0",
+    "contemplative-agent": "23015d3bdcc61d67e0ac306c5e525b34ed716ead",
+    "aap": "fe16c953ed9832d50b56231b06c7e61f93f8f02c",
+    "authorship-strategy": "b63e428b214ad09323a08e62c9e81050a0839dc0",
+    "zenn-content": "56bf025eceb347750e12e2d7e6a914afa45ef377"
   },
   "files": {
     "pilot.jsonl": "hand-written precedent pairs",
