@@ -55,6 +55,25 @@ A repo-relative pointer to the originating content within the source line. For A
 | `definition` | Q asks for the meaning of a term within a line; A gives the glossary-style definition. Used for glossary entries. |
 | `contrast` | Q asks how two lines (or two framings within one line) differ on a situation; A cites both, names the divergence. `meta.line` is `cross-line` for these. |
 
+### `meta.status` (optional)
+
+The ADR's lifecycle state, extracted from its `## Status` section. One of:
+
+| value | meaning |
+|---|---|
+| `accepted` | Active decision. |
+| `superseded` | Replaced by a later ADR. The replacement is named in `meta.superseded_by` when extractable. |
+| `withdrawn` | Cancelled without a direct successor. |
+| `proposed` | Drafted but not yet adopted. |
+
+Field is **omitted** (not `null`) when the source Status text does not match any of the above. Stage D ablation can filter on `meta.status` to compare the effect of training on accepted vs deprecated judgments.
+
+Deprecated ADRs (`superseded` / `withdrawn`) are deliberately **included** rather than filtered out — the upstream lines treat decisions as revisable (AKC Curate / Maintain; Contemplative Agent Emptiness), so excluding the evolution would itself misrepresent the doctrine. See `docs/empirical/README.md` for the rationale.
+
+### `meta.superseded_by` (optional)
+
+Present only when `meta.status == "superseded"`. Stores the successor ADR identifier as a string (e.g. `"ADR-0024"`). When the Status line cites multiple successors, only the first reference encountered is recorded. The number is zero-padded to four digits regardless of how the source writes it.
+
 ## Files in `vX.Y.Z/`
 
 - `pilot.jsonl` — hand-written precedent pairs (present in v0.1.0 only; subsequent versions absorb pilot into `train.jsonl`)

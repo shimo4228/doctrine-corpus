@@ -1,0 +1,63 @@
+# Line-specific extractor templates.
+#
+# Consumed by:
+#   - scripts/extract_adrs.py (judgment_prefix, explain_prompt, adr_dir, has_ja)
+#   - scripts/extract_glossary.py (Stage C, not yet implemented)
+#   - scripts/extract_thesis.py (Stage C, not yet implemented)
+#
+# Layout: `lines.<key>` where `<key>` matches the `meta.line` value emitted in
+# the corpus JSONL. Keys are the canonical short names per CLAUDE.md
+# (akc / contemplative-agent / aap / authorship-strategy).
+
+lines:
+  akc:
+    name: Agent Knowledge Cycle
+    adr_dir: /Users/shimomoto_tatsuya/MyAI_Lab/agent-knowledge-cycle/docs/adr
+    has_ja: false
+    judgment_prefix:
+      en: |
+        In the Agent Knowledge Cycle program (six phases: Research / Extract / Curate / Promote / Measure / Maintain), how should this situation be approached, and why?
+      ja: |
+        Agent Knowledge Cycle (6 phase: Research / Extract / Curate / Promote / Measure / Maintain) では、以下の状況をどう判断し、その理由は何か。
+    explain_prompt:
+      en: "Explain ADR-{number} ({title}), including context, decision, and consequences."
+      ja: "ADR-{number} ({title}) を、背景・決定・帰結を含めて解説して。"
+
+  contemplative-agent:
+    name: Contemplative Agent
+    adr_dir: /Users/shimomoto_tatsuya/MyAI_Lab/contemplative-moltbook/docs/adr
+    has_ja: true
+    judgment_prefix:
+      en: |
+        Applying the four contemplative axioms (Emptiness / Non-Duality / Mindfulness / Boundless Care), how should this situation be approached, and why?
+      ja: |
+        4 つの contemplative axiom (Emptiness / Non-Duality / Mindfulness / Boundless Care) を踏まえて、以下の状況をどう判断し、その理由は何か。
+    explain_prompt:
+      en: "Explain ADR-{number} ({title}), including context, decision, and consequences."
+      ja: "ADR-{number} ({title}) を、背景・決定・帰結を含めて解説して。"
+
+  aap:
+    name: Agent Attribution Practice
+    adr_dir: /Users/shimomoto_tatsuya/MyAI_Lab/agent-attribution-practice/docs/adr
+    has_ja: true
+    judgment_prefix:
+      en: |
+        Under the Agent Attribution Practice principles (security-by-absence, deterministic prohibition at scaffolding, untrusted-content boundary), how should this situation be approached, and why?
+      ja: |
+        Agent Attribution Practice の原則 (security-by-absence / deterministic prohibition / untrusted-content boundary) では、以下の状況をどう判断し、その理由は何か。
+    explain_prompt:
+      en: "Explain ADR-{number} ({title}), including context, decision, and consequences."
+      ja: "ADR-{number} ({title}) を、背景・決定・帰結を含めて解説して。"
+
+  authorship-strategy:
+    name: Authorship Strategy
+    adr_dir: /Users/shimomoto_tatsuya/MyAI_Lab/authorship-strategy/docs/adr
+    has_ja: true
+    judgment_prefix:
+      en: |
+        Under Authorship Strategy (three-axis inversion: scarcity → diffusion / exclusivity → derivation / enclosure → openness), how should this situation be approached, and why?
+      ja: |
+        Authorship Strategy (3 軸反転: scarcity → diffusion / exclusivity → derivation / enclosure → openness) では、以下の状況をどう判断し、その理由は何か。
+    explain_prompt:
+      en: "Explain ADR-{number} ({title}), including context, decision, and consequences."
+      ja: "ADR-{number} ({title}) を、背景・決定・帰結を含めて解説して。"

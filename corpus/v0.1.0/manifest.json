@@ -5,8 +5,8 @@
   "concept_doi": "TBD",
   "version_doi": "TBD",
   "license": "CC0-1.0",
-  "stage": "A",
-  "stage_description": "Hand-written pilot pairs only. No extractor output yet; train.jsonl / valid.jsonl will be assembled in stage D.",
+  "stage": "B",
+  "stage_description": "Hand-written pilot pairs + Stage B port of extract_zenn.py / extract_adrs.py / build_dataset.py is done; extractor output lives in data/ (gitignored) and is not yet folded into corpus/v0.1.0/train.jsonl. Final train/valid assembly waits for Stage C glossary + thesis + judgment-LLM extractors and Stage D verification.",
   "counts": {
     "total": 5,
     "by_line": {

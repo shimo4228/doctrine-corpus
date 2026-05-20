@@ -23,6 +23,7 @@ outputs/
 # Raw extraction intermediates (regenerated from upstream lines)
 data/raw/
 data/intermediate/
+data/*.jsonl
 
 # Local notes / scratch
 .scratch/

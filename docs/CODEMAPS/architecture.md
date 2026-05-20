@@ -37,9 +37,10 @@ doctrine-corpus/
 │       └── manifest.json      # per-line counts, license, generation date
 │
 ├── scripts/
-│   ├── build_dataset.py       # (Stage A) verbatim copy from disposition-lora
+│   ├── build_dataset.py       # (Stage A → B) extended to N-source via --source
+│   ├── line_templates.yaml    # (Stage B) line × lang Q prefix + ADR dir + has_ja
 │   ├── extract_zenn.py        # (Stage B) ported from disposition-lora
-│   ├── extract_adrs.py        # (Stage B) rewritten for 4-line scope
+│   ├── extract_adrs.py        # (Stage B) rewritten for 4-line scope, YAML-driven
 │   ├── extract_glossary.py    # (Stage C) new
 │   ├── extract_thesis.py      # (Stage C) new
 │   ├── extract_judgment_qa.py # (Stage C) new, LLM-mediated, core script
