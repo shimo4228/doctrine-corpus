@@ -19,10 +19,12 @@ doctrine-corpus/
 │   ├── CODEMAPS/
 │   │   └── architecture.md    # this file
 │   ├── adr/
-│   │   ├── README.md          # ADR index
-│   │   ├── 0001-corpus-as-primary-artifact.md       # (drafted in Stage A)
-│   │   ├── 0002-judgment-vs-completion-format.md
-│   │   └── 0003-bilingual-pair-policy.md
+│   │   ├── README.md                                           # ADR index
+│   │   ├── 0001-corpus-as-primary-artifact.md                  # foundational (Stage A)
+│   │   ├── 0002-judgment-vs-completion-format.md               # foundational (Stage A)
+│   │   ├── 0003-bilingual-pair-policy.md                       # foundational (Stage A)
+│   │   ├── 0004-rubric-based-semantic-judgment-validation.md   # discovery (Stage C)
+│   │   └── 0005-stage-d-verification-lora-result.md            # discovery (Stage D)
 │   ├── thesis.md              # (Stage C) corpus design thesis
 │   ├── glossary.md            # (Stage C) terms used by this corpus
 │   └── empirical/

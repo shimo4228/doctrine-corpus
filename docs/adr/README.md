@@ -6,14 +6,17 @@ Design decisions for **doctrine-corpus** itself. These ADRs describe how Q&A pai
 
 | ADR | Title | Status |
 |---|---|---|
+| [0001](0001-corpus-as-primary-artifact.md) | Corpus as primary artifact (LoRA as derived side product) | accepted |
+| [0002](0002-judgment-vs-completion-format.md) | Judgment-eliciting Q&A, not chunk-as-completion | accepted |
+| [0003](0003-bilingual-pair-policy.md) | Bilingual pair policy (EN + JA as two separate pairs) | accepted |
 | [0004](0004-rubric-based-semantic-judgment-validation.md) | Rubric-based semantic judgment validation (fire alarm + rubric agent) | drafted |
 | [0005](0005-stage-d-verification-lora-result.md) | Stage D verification LoRA — FAIL verdict, corpus retained as standalone deliverable | accepted |
 
-## Numbering
+## Two layers of decisions
 
-ADRs in this repository start at **0004**, not 0001. The first three numeric slots are reserved for the project's foundational invariants — *corpus as primary artifact (LoRA as derived side product)*, *judgment-eliciting Q&A (not chunk-as-completion)*, and *bilingual pair policy* — but those invariants live as load-bearing sections in [`CLAUDE.md`](../../CLAUDE.md), not as standalone ADR files. They are foundational stance, not discovered-during-build decisions, and `CLAUDE.md` is the canonical record for them.
+ADRs 0001-0003 record the project's **foundational invariants** — stances established at Stage A and made load-bearing for every later design choice. `CLAUDE.md` reproduces their key passages as a quick-reference summary; these ADR files are the canonical, fully-argued record (with Alternatives Considered and Consequences sections that `CLAUDE.md`'s summary form does not carry).
 
-ADRs 0004 onward record **discovery-driven decisions** — non-obvious design pivots arrived at during construction (e.g., 0004 after Round 1 judgment-pair validation exposed the limits of lexical overlap; 0005 after the Stage D verification LoRA reproduced the Phase 0 mannerism wrapper pattern). Reserve 0001-0003 if those invariants ever need to be lifted into standalone records (e.g., for renegotiation against a new parent-line decision); until then they stay in `CLAUDE.md`.
+ADRs 0004 onward record **discovery-driven decisions** — non-obvious design pivots arrived at during construction. 0004 was written after Round 1 of judgment-pair generation exposed the limits of lexical-overlap validation; 0005 after the Stage D verification LoRA reproduced the Phase 0 mannerism wrapper pattern at stronger intensity.
 
 ## Format
 
