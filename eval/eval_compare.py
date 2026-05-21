@@ -265,17 +265,34 @@ def main() -> None:
         )
     print(f"selected {len(selected)} prompts (line={args.line}, lang={args.lang})")
 
-    print(f"loading base model: {args.model}")
-    base_model, base_tok = load_pair(args.model, adapter_path=None)
+    # Sequential load: 8B-4bit base + LoRA simultaneously would peak ~13 GB
+    # resident on a 16 GB Mac, which observably wedges Metal under memory
+    # pressure. Generate all base outputs first, free the model, then load
+    # LoRA and generate again.
+    import gc
 
-    print(f"loading LoRA-adapted model: {args.model} + {args.adapter}")
+    base_outs: list[str] = []
+    print(f"phase 1/2 — loading base model: {args.model}")
+    base_model, base_tok = load_pair(args.model, adapter_path=None)
+    for i, (pid, lang, prompt, *_) in enumerate(selected, 1):
+        print(f"[base {i}/{len(selected)}] {pid} ({lang})")
+        base_outs.append(generate(base_model, base_tok, prompt, args.max_tokens))
+    del base_model, base_tok
+    gc.collect()
+
+    lora_outs: list[str] = []
+    print(f"phase 2/2 — loading LoRA-adapted model: {args.model} + {args.adapter}")
     lora_model, lora_tok = load_pair(args.model, adapter_path=args.adapter)
+    for i, (pid, lang, prompt, *_) in enumerate(selected, 1):
+        print(f"[lora {i}/{len(selected)}] {pid} ({lang})")
+        lora_outs.append(generate(lora_model, lora_tok, prompt, args.max_tokens))
+    del lora_model, lora_tok
+    gc.collect()
 
     rows: list[dict[str, Any]] = []
-    for i, (pid, lang, prompt, meta) in enumerate(selected, 1):
-        print(f"[{i}/{len(selected)}] {pid} ({lang}) — {prompt[:60]}...")
-        base_out = generate(base_model, base_tok, prompt, args.max_tokens)
-        lora_out = generate(lora_model, lora_tok, prompt, args.max_tokens)
+    for (pid, lang, prompt, meta), base_out, lora_out in zip(
+        selected, base_outs, lora_outs, strict=True
+    ):
         kw_hits, kw_total = keyword_hit_rate(lora_out, meta["expected_framework_keywords"])
         rows.append(
             {

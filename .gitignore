@@ -29,5 +29,8 @@ data/*.jsonl
 .scratch/
 TODO.local.md
 
+# Claude Code session-local state (not part of corpus)
+.claude/scheduled_tasks.lock
+
 # HF ephemeral
 .hf-cache/
