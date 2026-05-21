@@ -6,16 +6,20 @@ Design decisions for **doctrine-corpus** itself. These ADRs describe how Q&A pai
 
 | ADR | Title | Status |
 |---|---|---|
-| 0001 | Corpus as primary artifact (LoRA as derived side product) | drafted |
-| 0002 | Judgment-eliciting Q&A, not chunk-as-completion | drafted |
-| 0003 | Bilingual pair policy (EN + JA both as separate examples) | drafted |
 | [0004](0004-rubric-based-semantic-judgment-validation.md) | Rubric-based semantic judgment validation (fire alarm + rubric agent) | drafted |
+| [0005](0005-stage-d-verification-lora-result.md) | Stage D verification LoRA — FAIL verdict, corpus retained as standalone deliverable | accepted |
+
+## Numbering
+
+ADRs in this repository start at **0004**, not 0001. The first three numeric slots are reserved for the project's foundational invariants — *corpus as primary artifact (LoRA as derived side product)*, *judgment-eliciting Q&A (not chunk-as-completion)*, and *bilingual pair policy* — but those invariants live as load-bearing sections in [`CLAUDE.md`](../../CLAUDE.md), not as standalone ADR files. They are foundational stance, not discovered-during-build decisions, and `CLAUDE.md` is the canonical record for them.
+
+ADRs 0004 onward record **discovery-driven decisions** — non-obvious design pivots arrived at during construction (e.g., 0004 after Round 1 judgment-pair validation exposed the limits of lexical overlap; 0005 after the Stage D verification LoRA reproduced the Phase 0 mannerism wrapper pattern). Reserve 0001-0003 if those invariants ever need to be lifted into standalone records (e.g., for renegotiation against a new parent-line decision); until then they stay in `CLAUDE.md`.
 
 ## Format
 
 Each ADR follows the parent-line convention: **Status / Date / Context / Decision / Alternatives Considered / Consequences** + optional Lineage section at the end pointing back to the originating session / memory.
 
-English `0001-*.md` is the canonical record; Japanese `0001-*.ja.md` is a subordinate translation.
+English `NNNN-*.md` is the canonical record; Japanese `NNNN-*.ja.md` is a subordinate translation when one exists.
 
 ## When to add a new ADR
 
