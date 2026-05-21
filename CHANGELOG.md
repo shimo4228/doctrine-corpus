@@ -4,6 +4,26 @@ All notable changes to **doctrine-corpus** are recorded here. Version DOIs are a
 
 ## [Unreleased]
 
+### Stage D — final corpus assemble + verification LoRA verdict (FAIL)
+
+- `corpus/v0.1.0/train.jsonl` + `valid.jsonl` — 851 examples merged (pilot 5 + zenn 222 + adrs 238 + glossary 136 + thesis 24 + judgment 226) and split 766/85 with seed=42 via `scripts/build_dataset.py`
+- `scripts/train.sh` — mlx-lm LoRA wrapper, ported from disposition-lora with `DATA_DIR=corpus/v0.1.0`. Pinned to `mlx-community/Qwen3-8B-4bit` for direct comparability with Phase 0 findings.md
+- `eval/eval_compare.py` — base vs LoRA side-by-side generator. Reads `eval/prompt_bank.yaml` (40 prompts × 2 langs), runs base + LoRA *sequentially* (avoid 2× resident-model wedge on 16 GB Mac), and renders auto-signal Markdown report with per-line keyword hit-rate and 3-gram loop detection
+- `corpus/v0.1.0/manifest.json` — stage advanced to `D`, refreshed counts (851 by line/lang/shape), new `verification_lora_verdict` field recording the FAIL
+- `docs/adr/0005-stage-d-verification-lora-result.md` — early-stop verdict ADR. Auto-signals: overall keyword hit-rate **0.12** (FAIL threshold <0.30), loop-detected **67/80 = 84%** (FAIL threshold >30%). Hand-review confirms Phase 0 mannerism-wrapper pattern at stronger intensity: empty `<think></think>` (voice transferred), shimo4228-adjacent prose (domain vocabulary partially transferred), framework absent (judgment not reached), end-of-output repetition. Corpus retained as deliverable per CLAUDE.md "LoRA is verification only, not a publish target"; Stage E (deposit) does NOT proceed under this verdict
+
+### Stage C — extractors + judgment Q&A synthesis
+
+- `scripts/extract_glossary.py`, `scripts/extract_thesis.py`, `scripts/prepare_judgment_prompts.py`, `scripts/validate_judgment.py`
+- `data/judgment.jsonl` — 226 judgment-shape pairs generated inside Claude Code session (no SDK call) gated by Layer 1 fire-alarm + Layer 2 rubric
+- `docs/adr/0004-rubric-based-semantic-judgment-validation.md`
+- `.claude/agents/judgment-pair-reviewer.md` — project-local Layer 2 rubric agent on `opus`
+
+### Stage B — ADR / Zenn extractors for 4-line scope
+
+- `scripts/extract_zenn.py`, `scripts/extract_adrs.py` (ported from disposition-lora and rewritten for 4-line metadata schema)
+- `data/zenn.jsonl` (222), `data/adrs.jsonl` (238)
+
 ### Stage A pilot — hand-written precedent pairs
 
 - Initial repository skeleton: README (EN + JA), CLAUDE.md, ADR index, CODEMAPS, corpus directory layout, license setup
@@ -13,10 +33,7 @@ All notable changes to **doctrine-corpus** are recorded here. Version DOIs are a
 
 ### Not yet present
 
-- Stage B: ported `extract_zenn.py` and rewritten `extract_adrs.py` for the 4-line scope
-- Stage C: new `extract_judgment_qa.py` (LLM-mediated), `extract_glossary.py`, `extract_thesis.py`
-- Stage D: built `corpus/v0.1.0/train.jsonl` + `valid.jsonl`, verification LoRA outputs
-- Stage E: `.zenodo.json`, `llms.txt`, `llms-full.txt`, `graph.jsonld`, HF mirror upload, hub back-propagation
+- Stage E: `.zenodo.json`, `llms.txt`, `llms-full.txt`, `graph.jsonld`, HF mirror upload, hub back-propagation (deferred pending Stage D FAIL-verdict deposit/iterate decision)
 
 ## [0.1.0] — TBD (Zenodo deposit pending)
 

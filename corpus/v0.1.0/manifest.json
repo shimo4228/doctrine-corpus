@@ -1,26 +1,31 @@
 {
   "version": "0.1.0",
   "status": "draft",
-  "generation_date": "TBD",
+  "generation_date": "2026-05-21",
   "concept_doi": "TBD",
   "version_doi": "TBD",
   "license": "CC0-1.0",
-  "stage": "C",
-  "stage_description": "Stage C extractors (glossary / thesis / judgment_qa scaffolding) are complete. Glossary (AAP + AS) and thesis (AAP + AS) output is written to data/. Judgment Q&A synthesis prompts are prepared in data/judgment_prompts.jsonl; synthesis itself runs inside a Claude Code session (no SDK call, no metered cost), gated by 20-entry hand-review rounds via scripts/validate_judgment.py. AKC and Contemplative Agent glossaries were intentionally skipped because their glossary files are multi-language translation tables, not concept definitions; concept-level coverage is provided by ADR explain + judgment pairs. Final train/valid assembly waits for Stage D verification LoRA.",
+  "stage": "D",
+  "stage_description": "Stage D corpus assembled (851 examples = pilot 5 + zenn 222 + adrs 238 + glossary 136 + thesis 24 + judgment 226) into train/valid 766/85 with seed=42 / val-fraction=0.1. Verification LoRA trained (mlx-community/Qwen3-8B-4bit; planned 400 iter, completed 300 due to macOS uninterruptible-sleep wedge at iter 380; 300-iter weights MD5-match the live adapter and are used as the probe). eval_compare.py run against eval/prompt_bank.yaml (40 prompts x 2 langs = 80 entries). Verdict: FAIL on both Stage D early-stop axes (loop-detection 67/80 = 84% vs >30% threshold; framework-keyword hit-rate 0.12 vs <30% threshold). Recorded in docs/adr/0005-stage-d-verification-lora-result.md. LoRA artifact is verification-only and NOT part of the deposit; corpus is the deliverable. Stage E (deposit) does NOT proceed under this verdict — defer to next session for the deposit / iterate-on-data-scale trade-off.",
   "counts": {
-    "total": 5,
+    "total": 851,
     "by_line": {
-      "akc": 2,
-      "authorship-strategy": 2,
-      "cross-line": 1
+      "aap": 146,
+      "akc": 38,
+      "authorship-strategy": 126,
+      "contemplative-agent": 318,
+      "cross-line": 1,
+      "zenn": 222
     },
     "by_lang": {
-      "en": 3,
-      "ja": 2
+      "en": 334,
+      "ja": 517
     },
     "by_shape": {
-      "judgment": 4,
-      "contrast": 1
+      "contrast": 1,
+      "definition": 136,
+      "explain": 371,
+      "judgment": 343
     }
   },
   "source_commits": {
@@ -31,8 +36,31 @@
     "zenn-content": "56bf025eceb347750e12e2d7e6a914afa45ef377"
   },
   "files": {
-    "pilot.jsonl": "hand-written precedent pairs",
-    "train.jsonl": "not present at this stage",
-    "valid.jsonl": "not present at this stage"
+    "pilot.jsonl": "hand-written precedent pairs (Stage A; the 5 pairs are also folded into train/valid via build_dataset.py --source corpus/v0.1.0/pilot.jsonl)",
+    "train.jsonl": "assembled train slice (766 examples, seed=42)",
+    "valid.jsonl": "assembled valid slice (85 examples, seed=42)"
+  },
+  "verification_lora_verdict": {
+    "result": "FAIL",
+    "auto_signals": {
+      "overall_keyword_hit_rate": 0.12,
+      "overall_loop_detected_count": 67,
+      "overall_loop_detected_rate": 0.84,
+      "per_line_keyword_hit_rate": {
+        "aap": 0.15,
+        "akc": 0.11,
+        "authorship-strategy": 0.10,
+        "contemplative-agent": 0.12
+      }
+    },
+    "thresholds": {
+      "fail_keyword_hit_rate_below": 0.30,
+      "fail_loop_detected_rate_above": 0.30
+    },
+    "model": "mlx-community/Qwen3-8B-4bit",
+    "iterations": 300,
+    "iterations_planned": 400,
+    "iterations_short_reason": "macOS uninterruptible-sleep wedge at iter 380 under memory pressure; iter 300 checkpoint MD5-matches live adapters.safetensors",
+    "adr": "docs/adr/0005-stage-d-verification-lora-result.md"
   }
 }
