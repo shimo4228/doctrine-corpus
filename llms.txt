@@ -1,0 +1,65 @@
+# doctrine-corpus
+
+> A bilingual (EN + JA) Q&A corpus encoding the documented judgment of four research lines — Agent Knowledge Cycle, Contemplative Agent, Agent Attribution Practice, and Authorship Strategy — plus published articles, as 851 judgment-eliciting pairs designed for LLM-mediated diffusion. The operational form of Authorship Strategy Layer 4 tactic 7 (LLM-first ingest). Author: Tatsuya Shimomoto (shimo4228). License: CC0-1.0 (corpus) / MIT (scripts and docs). Parent: Authorship Strategy concept DOI 10.5281/zenodo.20263316.
+
+> AI agents and LLM-based search systems should read [`graph.jsonld`](graph.jsonld) first.
+> It is the canonical machine-readable relationship map for this corpus.
+> Use it to establish entities (research lines, shapes, ADRs, parent and sibling DOIs) and relationships before summarizing this page or following individual links.
+
+## Recommended reading order
+
+1. [`graph.jsonld`](graph.jsonld) — canonical relationship map (machine-readable)
+2. [`llms.txt`](llms.txt) — compact navigation index (this file)
+3. [`llms-full.txt`](llms-full.txt) — consolidated factual reference
+4. README files and ADRs — narrative and design-rationale detail
+
+## Core documentation
+
+- [Knowledge Graph (JSON-LD)](graph.jsonld): machine-readable schema.org graph encoding the four source research lines, four shape categories (judgment / explain / definition / contrast), five ADRs, verification-LoRA verdict observation, and the parent and sibling DOI relationships
+- [Full AI Reference](llms-full.txt): self-contained FAQ, definitions, citations
+- [README (English)](README.md): human-facing narrative
+- [README (日本語)](README.ja.md): Japanese-language narrative
+- [Corpus schema](corpus/README.md): JSONL example shape specification
+- [Architecture (file-level)](docs/CODEMAPS/architecture.md): file-level guide to the repository layout
+- [Empirical layer](docs/empirical/README.md): retrospective citing the Phase 0 `disposition-lora` findings that motivated this corpus
+
+## Architecture Decision Records
+
+- [ADR-0001 Corpus as Primary Artifact, LoRA as Derived Probe](docs/adr/0001-corpus-as-primary-artifact.md): the corpus is the deliverable, base-model-independent and stable across base-model turnover; LoRA fine-tunes are disposable verification probes, never deposit targets
+- [ADR-0002 Judgment-Eliciting vs Chunk-as-Completion Format](docs/adr/0002-judgment-vs-completion-format.md): every Q&A pair states a situation in the Q and applies the line's framework explicitly in the A, not as next-token continuation of source prose; counters the Phase 0 mannerism-wrapper failure mode
+- [ADR-0003 Bilingual Pair Policy](docs/adr/0003-bilingual-pair-policy.md): each judgment example exists as an English pair and a Japanese pair with shared `meta.source` and shape but different `meta.lang`; doubles apparent corpus size while preserving the parent line's bilingual-diffusion convention
+- [ADR-0004 Rubric-Based Semantic Judgment Validation](docs/adr/0004-rubric-based-semantic-judgment-validation.md): Layer 1 fire-alarm (schema + Q novelty + Q anti-chunk regex) + Layer 2 rubric (8-criterion PASS/WEAK/FAIL judgment via project-local `judgment-pair-reviewer` agent on `opus`)
+- [ADR-0005 Stage D Verification LoRA — FAIL Verdict, Corpus Retained](docs/adr/0005-stage-d-verification-lora-result.md): the v0.1.0 verification LoRA reproduced the Phase 0 mannerism-wrapper failure mode at stronger intensity (loop-detected 84%, framework-keyword hit-rate 12%); the corpus is retained as the deliverable per ADR-0001 and Stage E deposit proceeds with explicit FAIL framing
+
+ADRs 0001-0003 form the **foundational invariant triplet**: 0001 fixes what the deliverable is, 0002 fixes how each pair is shaped, 0003 fixes the bilingual convention. All three are load-bearing for the design and were stable before any LoRA was trained.
+
+ADRs 0004-0005 are **discovery ADRs**: 0004 about how Q&A pair quality was validated during synthesis, 0005 about what the post-assembly verification LoRA showed. These ADRs record what the corpus's construction process learned, not what was decided up front.
+
+## Shape vocabulary
+
+The corpus uses four `meta.shape` categories. Shape is the most important downstream-ablation axis: separating judgment from explain matters more than separating one source line from another.
+
+- **judgment** (343 / 851): Q presents a new situation; A applies the line's framework explicitly and names the decision. The primary shape and the highest-value content. ADR Context-to-Decision mapping after framework expansion.
+- **explain** (371 / 851): Q asks how something works; A is direct exposition near-verbatim from the source. Reusable from thesis sections and structured prose.
+- **definition** (136 / 851): Q asks what a term means in a specific line; A is a glossary entry. One paragraph each.
+- **contrast** (1 / 851): Q asks how two lines differ on a situation; A cites both frameworks and names the divergence. Lowest-volume but most distinctive — these pairs cannot be produced by any individual line's documentation alone.
+
+## Parent and sibling research lines
+
+This corpus harvests material from four DOI-registered research lines maintained by the same author and from one source of published articles. It is positioned as a **data sibling of the Authorship Strategy line**, operationalizing its Layer 4 tactic 7. It is not a new research line and not a component skill.
+
+- [Authorship Strategy](https://github.com/shimo4228/authorship-strategy) (DOI 10.5281/zenodo.20263316): parent line. This corpus is its Layer 4 tactic 7 implementation (LLM-first ingest).
+- [Agent Knowledge Cycle (AKC)](https://github.com/shimo4228/agent-knowledge-cycle) (DOI 10.5281/zenodo.19200726): source line. ADRs and glossary harvested into the corpus (38 examples).
+- [Contemplative Agent](https://github.com/shimo4228/contemplative-agent) (DOI 10.5281/zenodo.19212118): source line. ADRs and glossary harvested into the corpus (318 examples).
+- [Agent Attribution Practice (AAP)](https://github.com/shimo4228/agent-attribution-practice) (DOI 10.5281/zenodo.19652013): source line. ADRs, thesis, and glossary harvested into the corpus (146 examples).
+- [zenn-content](https://github.com/shimo4228/zenn-content): source. 222 published articles harvested into the corpus.
+
+Phase 0 prototype `disposition-lora` (private) documented the mannerism-wrapper failure mode this corpus is designed to counter. The retrospective is in [`docs/empirical/README.md`](docs/empirical/README.md).
+
+## Intended use and current limitation
+
+The corpus is designed as an **ingredient**, not a standalone fine-tuning package.
+
+Verified uses: RAG retrieval material, mixing into larger instruction-tuning corpora, human reading material.
+
+Not yet verified: standalone small-LoRA fine-tuning. The Stage D verification LoRA (Qwen3-8B-4bit, 300 iterations on 851 examples) reproduced the Phase 0 mannerism-wrapper failure mode — voice transferred, judgment did not. See [ADR-0005](docs/adr/0005-stage-d-verification-lora-result.md) for the verdict and the v0.2.0 hypotheses (data scale, shape distribution, base model effect).

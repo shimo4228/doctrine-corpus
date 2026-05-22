@@ -5,25 +5,35 @@ type: dataset
 authors:
   - family-names: Shimomoto
     given-names: Tatsuya
-    orcid: ""
+    orcid: "https://orcid.org/0009-0002-6168-4162"
 abstract: >
-  A DOI-targeted Q&A dataset that encodes the documented judgment of four
-  research lines (Agent Knowledge Cycle, Contemplative Agent, Agent
-  Attribution Practice, Authorship Strategy) as bilingual (EN + JA)
-  judgment-eliciting Q&A pairs for LLM training. The operational form of
-  Authorship Strategy Layer 4 tactic 7 (LLM-first ingest).
+  A bilingual (EN + JA) Q&A corpus encoding the documented judgment of four
+  research lines — Agent Knowledge Cycle, Contemplative Agent, Agent
+  Attribution Practice, and Authorship Strategy — as judgment-eliciting
+  pairs designed for LLM-mediated diffusion. The corpus is the operational
+  form of Authorship Strategy Layer 4 tactic 7 (LLM-first ingest).
+  It is base-model-independent and is intended as an ingredient — for
+  larger instruction-tuning mixes, RAG retrieval, and human reading —
+  rather than as a standalone fine-tuning package. A Stage D verification
+  LoRA (Qwen3-8B-4bit, 851 examples, 300 iterations) was trained as a
+  disposable probe and returned a preliminary FAIL verdict on the
+  judgment-transfer rubric; the corpus retains its deliverable status
+  and the LoRA was never a deposit target.
 keywords:
   - llm-training-data
   - instruction-tuning
   - authorship-strategy
   - agent-knowledge-cycle
   - contemplative-agent
+  - agent-attribution-practice
   - doi-registered-dataset
+  - bilingual-corpus
+  - judgment-eliciting-qa
 license: CC0-1.0
 repository-code: "https://github.com/shimo4228/doctrine-corpus"
 url: "https://github.com/shimo4228/doctrine-corpus"
 version: 0.1.0
-date-released: "TBD"
+date-released: "2026-05-22"
 # DOI will be added on Zenodo deposit:
 # doi: 10.5281/zenodo.XXXXXXXX
 references:

@@ -1,6 +1,6 @@
 # Architecture
 
-File-level guide to **doctrine-corpus**. For the concept-level relationship map see `graph.jsonld` (added in Stage E).
+File-level guide to **doctrine-corpus**. For the concept-level relationship map see `graph.jsonld`.
 
 ## Layout
 
@@ -71,7 +71,7 @@ Each `corpus/vX.Y.Z/` directory is an immutable snapshot. A new corpus version r
 
 ## graph.jsonld vs CODEMAPS (consistent with parent line)
 
-`graph.jsonld` (added Stage E) and this `CODEMAPS/architecture.md` cover the same project at different abstraction layers:
+`graph.jsonld` and this `CODEMAPS/architecture.md` cover the same project at different abstraction layers:
 
 - **CODEMAPS = file-level**: "where does X live in this repo" in prose
 - **graph.jsonld = concept-level**: "what is X and how does it relate to Y" in schema.org JSON-LD triples

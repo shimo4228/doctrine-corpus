@@ -1,0 +1,340 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "shimo": "https://shimo4228.github.io/shimo4228/vocab#",
+    "ResearchLine": "shimo:ResearchLine",
+    "EcosystemRepo": "shimo:EcosystemRepo",
+    "Concept": "shimo:Concept",
+    "Shape": "shimo:Shape",
+    "ADR": "shimo:ADR",
+    "Observation": "shimo:Observation",
+    "ExternalReference": "shimo:ExternalReference",
+    "siblingOf": {"@id": "shimo:siblingOf", "@type": "@id"},
+    "extends": {"@id": "shimo:extends", "@type": "@id"},
+    "harvestedFrom": {"@id": "shimo:harvestedFrom", "@type": "@id"},
+    "characterizesPairs": {"@id": "shimo:characterizesPairs", "@type": "@id"},
+    "groupedAs": {"@id": "shimo:groupedAs", "@type": "@id"},
+    "operationalizes": {"@id": "shimo:operationalizes", "@type": "@id"},
+    "counteredBy": {"@id": "shimo:counteredBy", "@type": "@id"},
+    "observedBy": {"@id": "shimo:observedBy", "@type": "@id"},
+    "appliesTo": {"@id": "shimo:appliesTo", "@type": "@id"},
+    "isPartOf": {"@id": "https://schema.org/isPartOf", "@type": "@id"},
+    "hasPart": {"@id": "https://schema.org/hasPart", "@type": "@id"},
+    "mainEntity": {"@id": "https://schema.org/mainEntity", "@type": "@id"},
+    "subjectOf": {"@id": "https://schema.org/subjectOf", "@type": "@id"},
+    "shapeOrdinal": "shimo:shapeOrdinal"
+  },
+  "@graph": [
+    {
+      "@id": "https://github.com/shimo4228/doctrine-corpus#knowledge-graph",
+      "@type": ["Dataset", "CreativeWork"],
+      "name": "doctrine-corpus Knowledge Graph",
+      "description": "Canonical machine-readable relationship map for doctrine-corpus, a bilingual judgment-eliciting Q&A corpus encoding the documented judgment of four research lines (Agent Knowledge Cycle, Contemplative Agent, Agent Attribution Practice, Authorship Strategy) plus published articles. Encodes the four source research lines harvested into the corpus, the four shape categories (judgment, explain, definition, contrast) that classify every pair, the five ADRs in two groupings (foundational invariant triplet 0001-0003 and discovery ADRs 0004-0005), the Stage D verification LoRA FAIL verdict as an Observation node, and the corpus's status as the data sibling of the Authorship Strategy line operationalizing its Layer 4 tactic 7. As the concept-form entry point this graph specifies, AI agents and LLM-based search systems should read it before summarizing the corpus or following individual document links.",
+      "isBasedOn": "https://github.com/shimo4228/doctrine-corpus",
+      "mainEntity": "https://github.com/shimo4228/doctrine-corpus",
+      "creator": {"@id": "https://orcid.org/0009-0002-6168-4162"},
+      "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "inLanguage": ["en", "ja"],
+      "keywords": [
+        "judgment-eliciting Q&A",
+        "bilingual corpus",
+        "LLM training data",
+        "instruction tuning ingredient",
+        "RAG retrieval material",
+        "LLM-mediated diffusion",
+        "verification LoRA",
+        "mannerism wrapper",
+        "shape vocabulary",
+        "JSON-LD knowledge graph",
+        "Authorship Strategy Layer 4 tactic 7",
+        "data sibling",
+        "Zenodo deposit"
+      ]
+    },
+
+    {
+      "@id": "https://orcid.org/0009-0002-6168-4162",
+      "@type": "Person",
+      "name": "Tatsuya Shimomoto",
+      "alternateName": "shimo4228",
+      "sameAs": [
+        "https://github.com/shimo4228",
+        "https://orcid.org/0009-0002-6168-4162"
+      ]
+    },
+
+    {
+      "@id": "https://github.com/shimo4228/doctrine-corpus",
+      "@type": ["EcosystemRepo", "Dataset"],
+      "name": "doctrine-corpus",
+      "alternateName": [
+        {"@value": "doctrine-corpus", "@language": "en"},
+        {"@value": "ドクトリンコーパス", "@language": "ja"}
+      ],
+      "description": "A bilingual (EN + JA) Q&A corpus encoding the documented judgment of four research lines as judgment-eliciting pairs. The operational form of Authorship Strategy Layer 4 tactic 7 (LLM-first ingest). Base-model-independent; intended as an ingredient for larger instruction-tuning mixes, RAG retrieval, and human reading rather than as a standalone fine-tuning package.",
+      "url": "https://github.com/shimo4228/doctrine-corpus",
+      "creator": {"@id": "https://orcid.org/0009-0002-6168-4162"},
+      "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "inLanguage": ["en", "ja"],
+      "extends": "https://doi.org/10.5281/zenodo.20263316",
+      "operationalizes": "https://shimo4228.github.io/shimo4228/vocab#concept/llm-first-ingest",
+      "harvestedFrom": [
+        "https://doi.org/10.5281/zenodo.19200726",
+        "https://doi.org/10.5281/zenodo.19212118",
+        "https://doi.org/10.5281/zenodo.19652013",
+        "https://doi.org/10.5281/zenodo.20263316",
+        "https://github.com/shimo4228/zenn-content"
+      ],
+      "isPartOf": "https://github.com/shimo4228/shimo4228",
+      "sameAs": "https://huggingface.co/datasets/Shimo4228/doctrine-corpus"
+    },
+
+    {
+      "@id": "https://doi.org/10.5281/zenodo.20263316",
+      "@type": ["ResearchLine", "ScholarlyArticle"],
+      "name": "Authorship Strategy",
+      "alternateName": [
+        {"@value": "Authorship Strategy", "@language": "en"},
+        {"@value": "著者戦略", "@language": "ja"}
+      ],
+      "description": "A normative framework, tactical catalog, and empirical baseline for authorship strategy under AI-mediated diffusion. Parent line of doctrine-corpus; this corpus is its Layer 4 tactic 7 implementation (LLM-first ingest).",
+      "url": "https://github.com/shimo4228/authorship-strategy",
+      "identifier": "10.5281/zenodo.20263316",
+      "sameAs": "https://doi.org/10.5281/zenodo.20263316",
+      "siblingOf": [
+        "https://doi.org/10.5281/zenodo.19200726",
+        "https://doi.org/10.5281/zenodo.19212118",
+        "https://doi.org/10.5281/zenodo.19652013"
+      ]
+    },
+
+    {
+      "@id": "https://doi.org/10.5281/zenodo.19200726",
+      "@type": ["ResearchLine", "ScholarlyArticle"],
+      "name": "Agent Knowledge Cycle",
+      "alternateName": [
+        {"@value": "Agent Knowledge Cycle", "@language": "en"},
+        {"@value": "エージェント知識サイクル", "@language": "ja"}
+      ],
+      "description": "Six-phase bidirectional growth loop for sustaining intent alignment between an AI agent and its operator over time. Source line for the AKC harvest in doctrine-corpus.",
+      "url": "https://github.com/shimo4228/agent-knowledge-cycle",
+      "identifier": "10.5281/zenodo.19200726",
+      "sameAs": "https://doi.org/10.5281/zenodo.19200726"
+    },
+
+    {
+      "@id": "https://doi.org/10.5281/zenodo.19212118",
+      "@type": ["ResearchLine", "ScholarlyArticle"],
+      "name": "Contemplative Agent",
+      "alternateName": [
+        {"@value": "Contemplative Agent", "@language": "en"},
+        {"@value": "コンテンプラティブ・エージェント", "@language": "ja"}
+      ],
+      "description": "Autonomous agents grounded in four contemplative axioms (Emptiness, Non-Duality, Mindfulness, Boundless Care). Source line and the highest-volume contributor to doctrine-corpus.",
+      "url": "https://github.com/shimo4228/contemplative-agent",
+      "identifier": "10.5281/zenodo.19212118",
+      "sameAs": "https://doi.org/10.5281/zenodo.19212118"
+    },
+
+    {
+      "@id": "https://doi.org/10.5281/zenodo.19652013",
+      "@type": ["ResearchLine", "ScholarlyArticle"],
+      "name": "Agent Attribution Practice",
+      "alternateName": [
+        {"@value": "Agent Attribution Practice", "@language": "en"},
+        {"@value": "エージェント帰責実践", "@language": "ja"}
+      ],
+      "description": "Harness-neutral ADRs on accountability distribution in autonomous AI agents. Source line, vocabulary sibling of Authorship Strategy (shares the word 'attribution' with disjoint meaning).",
+      "url": "https://github.com/shimo4228/agent-attribution-practice",
+      "identifier": "10.5281/zenodo.19652013",
+      "sameAs": "https://doi.org/10.5281/zenodo.19652013"
+    },
+
+    {
+      "@id": "https://github.com/shimo4228/zenn-content",
+      "@type": ["EcosystemRepo", "CreativeWork"],
+      "name": "zenn-content",
+      "description": "Published articles by the author on Zenn. Source of explain-shape Q&A pairs harvested into doctrine-corpus.",
+      "url": "https://github.com/shimo4228/zenn-content",
+      "inLanguage": ["ja", "en"]
+    },
+
+    {
+      "@id": "https://shimo4228.github.io/shimo4228/vocab#concept/llm-first-ingest",
+      "@type": "Concept",
+      "name": "LLM-first ingest",
+      "alternateName": [
+        {"@value": "LLM-first ingest", "@language": "en"},
+        {"@value": "LLM-first 取り込み", "@language": "ja"}
+      ],
+      "description": "Authorship Strategy Layer 4 tactic 7. Positioning documented judgment in the substrate that increasingly mediates how readers find authored work (LLM training data and LLM-mediated retrieval), rather than in human-primary distribution channels."
+    },
+
+    {
+      "@id": "https://shimo4228.github.io/shimo4228/vocab#shape/judgment",
+      "@type": ["Shape", "Concept"],
+      "name": "judgment shape",
+      "alternateName": [
+        {"@value": "judgment-eliciting Q&A", "@language": "en"},
+        {"@value": "判断喚起型 Q&A", "@language": "ja"}
+      ],
+      "description": "The primary shape. Q presents a new situation; A applies the source line's framework explicitly and names the decision. ADR Context-to-Decision mapping after the Q has been rewritten to a novel situation that reaches the same Decision through a different entry point.",
+      "shapeOrdinal": 1,
+      "characterizesPairs": "https://github.com/shimo4228/doctrine-corpus"
+    },
+
+    {
+      "@id": "https://shimo4228.github.io/shimo4228/vocab#shape/explain",
+      "@type": ["Shape", "Concept"],
+      "name": "explain shape",
+      "alternateName": [
+        {"@value": "explain shape", "@language": "en"},
+        {"@value": "解説型", "@language": "ja"}
+      ],
+      "description": "Q asks how something works or what something is; A is direct exposition near-verbatim from thesis or structured prose. Reusable from the source.",
+      "shapeOrdinal": 2,
+      "characterizesPairs": "https://github.com/shimo4228/doctrine-corpus"
+    },
+
+    {
+      "@id": "https://shimo4228.github.io/shimo4228/vocab#shape/definition",
+      "@type": ["Shape", "Concept"],
+      "name": "definition shape",
+      "alternateName": [
+        {"@value": "definition shape", "@language": "en"},
+        {"@value": "定義型", "@language": "ja"}
+      ],
+      "description": "Q asks what a term means in a specific research line; A is a one-paragraph glossary entry. Mapped from each line's glossary file.",
+      "shapeOrdinal": 3,
+      "characterizesPairs": "https://github.com/shimo4228/doctrine-corpus"
+    },
+
+    {
+      "@id": "https://shimo4228.github.io/shimo4228/vocab#shape/contrast",
+      "@type": ["Shape", "Concept"],
+      "name": "contrast shape",
+      "alternateName": [
+        {"@value": "contrast shape", "@language": "en"},
+        {"@value": "対比型", "@language": "ja"}
+      ],
+      "description": "Q asks how two lines differ in their approach to a situation; A cites both frameworks and names the divergence. The lowest-volume but most distinctive shape; cannot be produced by any individual line's documentation alone.",
+      "shapeOrdinal": 4,
+      "characterizesPairs": "https://github.com/shimo4228/doctrine-corpus"
+    },
+
+    {
+      "@id": "https://shimo4228.github.io/shimo4228/vocab#concept/chunk-as-completion",
+      "@type": "Concept",
+      "name": "chunk-as-completion",
+      "alternateName": [
+        {"@value": "chunk-as-completion", "@language": "en"},
+        {"@value": "チャンク補完", "@language": "ja"}
+      ],
+      "description": "The contrast term to judgment-eliciting Q&A. Training the model to continue a chunked passage of source prose without framework expansion. Teaches voice and vocabulary but not the judgment underneath. The format used by the Phase 0 prototype disposition-lora.",
+      "counteredBy": "https://github.com/shimo4228/doctrine-corpus/blob/main/docs/adr/0002-judgment-vs-completion-format.md"
+    },
+
+    {
+      "@id": "https://shimo4228.github.io/shimo4228/vocab#concept/mannerism-wrapper",
+      "@type": "Concept",
+      "name": "mannerism wrapper",
+      "alternateName": [
+        {"@value": "mannerism wrapper", "@language": "en"},
+        {"@value": "マンネリズム・ラッパー", "@language": "ja"}
+      ],
+      "description": "The failure mode where a LoRA fine-tune transfers voice and vocabulary from the corpus but does not transfer judgment. Outputs are fluent and stylistically adjacent to the source author but bypass the line's framework. Documented by the Phase 0 disposition-lora prototype and reproduced at stronger intensity by the Stage D verification LoRA.",
+      "observedBy": "https://github.com/shimo4228/doctrine-corpus/blob/main/docs/adr/0005-stage-d-verification-lora-result.md"
+    },
+
+    {
+      "@id": "https://shimo4228.github.io/shimo4228/vocab#group/foundational-invariant-triplet",
+      "@type": "Concept",
+      "name": "foundational invariant triplet",
+      "description": "The three foundational ADRs (0001 Corpus as Primary Artifact, 0002 Judgment vs Completion Format, 0003 Bilingual Pair Policy). All written Stage A, stable before any LoRA was trained; fix what the deliverable is, how each pair is shaped, and the bilingual convention. Load-bearing for the corpus's design across versions."
+    },
+
+    {
+      "@id": "https://shimo4228.github.io/shimo4228/vocab#group/discovery-adrs",
+      "@type": "Concept",
+      "name": "discovery ADRs",
+      "description": "ADRs that record what the corpus construction process learned (0004 Rubric-Based Semantic Judgment Validation, written Stage C; 0005 Stage D Verification LoRA FAIL Verdict, written Stage D). Likelier to be revisited in future versions than the foundational triplet."
+    },
+
+    {
+      "@id": "https://github.com/shimo4228/doctrine-corpus/blob/main/docs/adr/0001-corpus-as-primary-artifact.md",
+      "@type": ["ADR", "CreativeWork"],
+      "name": "ADR-0001 Corpus as Primary Artifact, LoRA as Derived Probe",
+      "description": "The corpus is the primary deliverable; LoRA fine-tunes against it are disposable verification probes, never deposit targets. The corpus is base-model-independent and survives base-model turnover; a LoRA is bound to a specific base architecture and depreciates as base models turn over.",
+      "url": "https://github.com/shimo4228/doctrine-corpus/blob/main/docs/adr/0001-corpus-as-primary-artifact.md",
+      "isPartOf": "https://github.com/shimo4228/doctrine-corpus",
+      "groupedAs": "https://shimo4228.github.io/shimo4228/vocab#group/foundational-invariant-triplet"
+    },
+
+    {
+      "@id": "https://github.com/shimo4228/doctrine-corpus/blob/main/docs/adr/0002-judgment-vs-completion-format.md",
+      "@type": ["ADR", "CreativeWork"],
+      "name": "ADR-0002 Judgment-Eliciting vs Chunk-as-Completion Format",
+      "description": "Every Q&A pair states a situation in the Q and applies the line's framework explicitly in the A. The Q is decoupled from the source Context's surface form; the A is the source Decision after framework expansion. Counters the Phase 0 mannerism-wrapper failure mode.",
+      "url": "https://github.com/shimo4228/doctrine-corpus/blob/main/docs/adr/0002-judgment-vs-completion-format.md",
+      "isPartOf": "https://github.com/shimo4228/doctrine-corpus",
+      "groupedAs": "https://shimo4228.github.io/shimo4228/vocab#group/foundational-invariant-triplet",
+      "appliesTo": "https://shimo4228.github.io/shimo4228/vocab#concept/chunk-as-completion"
+    },
+
+    {
+      "@id": "https://github.com/shimo4228/doctrine-corpus/blob/main/docs/adr/0003-bilingual-pair-policy.md",
+      "@type": ["ADR", "CreativeWork"],
+      "name": "ADR-0003 Bilingual Pair Policy",
+      "description": "Each judgment example exists as an English pair and a Japanese pair, with shared meta.source and shape but different meta.lang. Doubles apparent corpus size while preserving the parent line's bilingual diffusion convention.",
+      "url": "https://github.com/shimo4228/doctrine-corpus/blob/main/docs/adr/0003-bilingual-pair-policy.md",
+      "isPartOf": "https://github.com/shimo4228/doctrine-corpus",
+      "groupedAs": "https://shimo4228.github.io/shimo4228/vocab#group/foundational-invariant-triplet"
+    },
+
+    {
+      "@id": "https://github.com/shimo4228/doctrine-corpus/blob/main/docs/adr/0004-rubric-based-semantic-judgment-validation.md",
+      "@type": ["ADR", "CreativeWork"],
+      "name": "ADR-0004 Rubric-Based Semantic Judgment Validation",
+      "description": "Two-layer validation policy for synthesized judgment Q&A pairs. Layer 1 (fire-alarm) is scripts/validate_judgment.py checking schema, Q novelty, and Q anti-chunk patterns. Layer 2 (rubric) is the project-local judgment-pair-reviewer agent on opus applying an 8-criterion PASS/WEAK/FAIL judgment.",
+      "url": "https://github.com/shimo4228/doctrine-corpus/blob/main/docs/adr/0004-rubric-based-semantic-judgment-validation.md",
+      "isPartOf": "https://github.com/shimo4228/doctrine-corpus",
+      "groupedAs": "https://shimo4228.github.io/shimo4228/vocab#group/discovery-adrs"
+    },
+
+    {
+      "@id": "https://github.com/shimo4228/doctrine-corpus/blob/main/docs/adr/0005-stage-d-verification-lora-result.md",
+      "@type": ["ADR", "CreativeWork"],
+      "name": "ADR-0005 Stage D Verification LoRA — FAIL Verdict, Corpus Retained",
+      "description": "The v0.1.0 verification LoRA reproduces the Phase 0 mannerism-wrapper failure mode at stronger intensity (loop-detected 84%, framework-keyword hit-rate 12%). The corpus is retained as the deliverable per ADR-0001; Stage E deposit proceeds with explicit FAIL framing in README and CITATION.cff. v0.2.0 hypotheses recorded for follow-up: data scale, shape distribution, base model effect.",
+      "url": "https://github.com/shimo4228/doctrine-corpus/blob/main/docs/adr/0005-stage-d-verification-lora-result.md",
+      "isPartOf": "https://github.com/shimo4228/doctrine-corpus",
+      "groupedAs": "https://shimo4228.github.io/shimo4228/vocab#group/discovery-adrs",
+      "subjectOf": "https://github.com/shimo4228/doctrine-corpus#verdict/stage-d-verification-lora"
+    },
+
+    {
+      "@id": "https://github.com/shimo4228/doctrine-corpus#verdict/stage-d-verification-lora",
+      "@type": ["Observation", "CreativeWork"],
+      "name": "Stage D verification LoRA FAIL verdict",
+      "description": "Preliminary observation from the Stage D verification LoRA against corpus v0.1.0 on mlx-community/Qwen3-8B-4bit (300 iterations, 9.699M trainable params). Both Stage D early-stop axes failed: loop-detected rate 84% (FAIL threshold > 30%) and overall framework-keyword hit-rate 0.12 (FAIL threshold < 0.30). Hand-review confirms Phase 0 mannerism-wrapper pattern at stronger intensity. The corpus is retained as the deliverable per ADR-0001; the LoRA was never a deposit target.",
+      "subjectOf": "https://github.com/shimo4228/doctrine-corpus/blob/main/docs/adr/0005-stage-d-verification-lora-result.md",
+      "appliesTo": "https://shimo4228.github.io/shimo4228/vocab#concept/mannerism-wrapper"
+    },
+
+    {
+      "@id": "https://github.com/shimo4228/shimo4228",
+      "@type": ["EcosystemRepo", "CreativeWork"],
+      "name": "Research Program Hub",
+      "description": "Metadata-only federation hub for the shimo4228 research program. Hosts the canonical graph.jsonld that lists all sibling research lines and ecosystem repos. doctrine-corpus is registered as an EcosystemRepo node extending the Authorship Strategy concept DOI.",
+      "url": "https://github.com/shimo4228/shimo4228",
+      "hasPart": "https://github.com/shimo4228/doctrine-corpus"
+    },
+
+    {
+      "@id": "https://llmstxt.org/",
+      "@type": "ExternalReference",
+      "name": "Answer.AI llms.txt standard",
+      "description": "The convention followed by this corpus's llms.txt and llms-full.txt artifacts. Proposed by Jeremy Howard / Answer.AI in 2024 as the AI-facing equivalent of robots.txt."
+    }
+  ]
+}

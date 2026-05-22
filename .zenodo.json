@@ -1,0 +1,73 @@
+{
+  "upload_type": "dataset",
+  "title": "doctrine-corpus: A judgment-eliciting Q&A corpus across the shimo4228 research program",
+  "creators": [
+    {
+      "name": "Shimomoto, Tatsuya",
+      "orcid": "0009-0002-6168-4162"
+    }
+  ],
+  "description": "A bilingual (EN + JA) Q&A corpus encoding the documented judgment of four research lines — Agent Knowledge Cycle, Contemplative Agent, Agent Attribution Practice, and Authorship Strategy — plus published articles, as judgment-eliciting pairs designed for LLM-mediated diffusion. v0.1.0 contains 851 examples (334 English / 517 Japanese; 343 judgment / 371 explain / 136 definition / 1 contrast) split 766/85 (seed=42) with per-example metadata recording source line, source path, language, and shape. The corpus is the operational form of Authorship Strategy Layer 4 tactic 7 (LLM-first ingest). It is base-model-independent and is intended as an ingredient for larger instruction-tuning mixes, RAG retrieval, and human reading rather than as a standalone fine-tuning package. A Stage D verification LoRA (Qwen3-8B-4bit, 300 iter on the assembled corpus) was trained as a disposable probe and returned a preliminary FAIL verdict on the judgment-transfer rubric (the corpus retains its deliverable status; the LoRA was never a deposit target). See ADR-0001 for the corpus-as-primary-artifact policy and ADR-0005 for the verification verdict and v0.2.0 hypotheses (data scale, shape distribution, base model effect).",
+  "access_right": "open",
+  "license": "CC0-1.0",
+  "keywords": [
+    "llm-training-data",
+    "instruction-tuning",
+    "judgment-eliciting-qa",
+    "bilingual-corpus",
+    "authorship-strategy",
+    "agent-knowledge-cycle",
+    "contemplative-agent",
+    "agent-attribution-practice",
+    "doi-registered-dataset",
+    "LLM-mediated diffusion",
+    "RAG",
+    "verification LoRA",
+    "Q&A corpus"
+  ],
+  "language": "eng",
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.20263316",
+      "relation": "isPartOf",
+      "resource_type": "software",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.19200726",
+      "relation": "references",
+      "resource_type": "software",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.19212118",
+      "relation": "references",
+      "resource_type": "software",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.19652013",
+      "relation": "references",
+      "resource_type": "software",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "https://github.com/shimo4228/shimo4228",
+      "relation": "isPartOf",
+      "resource_type": "other",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://huggingface.co/datasets/Shimo4228/doctrine-corpus",
+      "relation": "isVariantFormOf",
+      "resource_type": "dataset",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://raw.githubusercontent.com/shimo4228/shimo4228/main/graph.jsonld",
+      "relation": "isDocumentedBy",
+      "resource_type": "dataset",
+      "scheme": "url"
+    }
+  ]
+}
