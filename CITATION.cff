@@ -34,8 +34,7 @@ repository-code: "https://github.com/shimo4228/doctrine-corpus"
 url: "https://github.com/shimo4228/doctrine-corpus"
 version: 0.1.0
 date-released: "2026-05-22"
-# DOI will be added on Zenodo deposit:
-# doi: 10.5281/zenodo.XXXXXXXX
+doi: 10.5281/zenodo.20337009
 references:
   - type: software
     title: "authorship-strategy: Doctrine for being a known author under AI-mediated diffusion"

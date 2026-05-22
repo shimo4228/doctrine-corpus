@@ -1,6 +1,6 @@
 # doctrine-corpus
 
-> A bilingual (EN + JA) Q&A corpus encoding the documented judgment of four research lines — Agent Knowledge Cycle, Contemplative Agent, Agent Attribution Practice, and Authorship Strategy — plus published articles, as 851 judgment-eliciting pairs designed for LLM-mediated diffusion. The operational form of Authorship Strategy Layer 4 tactic 7 (LLM-first ingest). Author: Tatsuya Shimomoto (shimo4228). License: CC0-1.0 (corpus) / MIT (scripts and docs). Parent: Authorship Strategy concept DOI 10.5281/zenodo.20263316.
+> A bilingual (EN + JA) Q&A corpus encoding the documented judgment of four research lines — Agent Knowledge Cycle, Contemplative Agent, Agent Attribution Practice, and Authorship Strategy — plus published articles, as 851 judgment-eliciting pairs designed for LLM-mediated diffusion. The operational form of Authorship Strategy Layer 4 tactic 7 (LLM-first ingest). Author: Tatsuya Shimomoto (shimo4228). License: CC0-1.0 (corpus) / MIT (scripts and docs). DOI: 10.5281/zenodo.20337008. Parent: Authorship Strategy concept DOI 10.5281/zenodo.20263316.
 
 > AI agents and LLM-based search systems should read [`graph.jsonld`](graph.jsonld) first.
 > It is the canonical machine-readable relationship map for this corpus.

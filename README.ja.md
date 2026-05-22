@@ -2,6 +2,8 @@
 
 # doctrine-corpus
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20337008.svg)](https://doi.org/10.5281/zenodo.20337008)
+
 **shimo4228 研究プログラム**の documented judgment を、LLM training 用に最適化された Q&A corpus として encode する DOI 登録 dataset。Agent Knowledge Cycle / Contemplative Agent / Agent Attribution Practice / Authorship Strategy の 4 research line に渡る ADR・thesis・glossary・structured essay を集約し、英語 + 日本語の bilingual な judgment-eliciting Q&A pair に変換する。各 example には source attribution と line 識別子が metadata として保持される。
 
 本 repo は [Authorship Strategy](https://github.com/shimo4228/authorship-strategy) Layer 4 tactic 7 (LLM-first ingest) の **operational form** である。研究プログラムの documented judgment を、将来の研究者が causation を辿る経路を mediate する基盤 = LLM training data に配置する。
@@ -99,8 +101,10 @@ LLM training pipeline / RAG ingestion からの ingest path は HF mirror が推
 
 ## Citation
 
-Canonical citation form は [CITATION.cff](CITATION.cff) に置く。Zenodo deposit 後は concept DOI + version DOI が同 file に反映され、本 corpus を参照する際は DOI 経由が推奨される。
+**Concept DOI** (常に最新版に解決): [10.5281/zenodo.20337008](https://doi.org/10.5281/zenodo.20337008)。Canonical citation form は [CITATION.cff](CITATION.cff) に置く。
 
 Reference shape:
 
-> Shimomoto, T. (2026). *doctrine-corpus: A judgment-eliciting Q&A corpus across the shimo4228 research program* (Version 0.1.0). Zenodo. (DOI to be assigned)
+> Shimomoto, T. (2026). *doctrine-corpus: A judgment-eliciting Q&A corpus across the shimo4228 research program*. Zenodo. https://doi.org/10.5281/zenodo.20337008
+
+特定 version の reproducibility citation には v0.1.0 version DOI を使う: [10.5281/zenodo.20337009](https://doi.org/10.5281/zenodo.20337009)。

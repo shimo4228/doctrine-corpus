@@ -11,8 +11,8 @@ A consolidated factual reference for AI agents and LLM-based search systems. Sel
 - **License**: CC0-1.0 (corpus data), MIT (scripts and docs)
 - **Repository**: https://github.com/shimo4228/doctrine-corpus
 - **Hugging Face mirror**: https://huggingface.co/datasets/Shimo4228/doctrine-corpus
-- **Concept DOI** (canonical): assigned by Zenodo on tag push; see [CITATION.cff](CITATION.cff)
-- **v0.1.0 version DOI**: assigned by Zenodo on tag push
+- **Concept DOI** (canonical): 10.5281/zenodo.20337008
+- **v0.1.0 version DOI**: 10.5281/zenodo.20337009
 - **Corpus version**: v0.1.0, released 2026-05-22
 - **Total examples**: 851 (train 766 + valid 85, seed=42, val-fraction=0.1) + 5 pilot precedent pairs
 - **Language distribution**: 334 English / 517 Japanese

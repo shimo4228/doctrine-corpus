@@ -1,12 +1,13 @@
 {
   "version": "0.1.0",
-  "status": "draft",
+  "status": "released",
+  "release_date": "2026-05-22",
   "generation_date": "2026-05-21",
-  "concept_doi": "TBD",
-  "version_doi": "TBD",
+  "concept_doi": "10.5281/zenodo.20337008",
+  "version_doi": "10.5281/zenodo.20337009",
   "license": "CC0-1.0",
-  "stage": "D",
-  "stage_description": "Stage D corpus assembled (851 examples = pilot 5 + zenn 222 + adrs 238 + glossary 136 + thesis 24 + judgment 226) into train/valid 766/85 with seed=42 / val-fraction=0.1. Verification LoRA trained (mlx-community/Qwen3-8B-4bit; planned 400 iter, completed 300 due to macOS uninterruptible-sleep wedge at iter 380; 300-iter weights MD5-match the live adapter and are used as the probe). eval_compare.py run against eval/prompt_bank.yaml (40 prompts x 2 langs = 80 entries). Verdict: FAIL on both Stage D early-stop axes (loop-detection 67/80 = 84% vs >30% threshold; framework-keyword hit-rate 0.12 vs <30% threshold). Recorded in docs/adr/0005-stage-d-verification-lora-result.md. LoRA artifact is verification-only and NOT part of the deposit; corpus is the deliverable. Stage E (deposit) does NOT proceed under this verdict — defer to next session for the deposit / iterate-on-data-scale trade-off.",
+  "stage": "E",
+  "stage_description": "Stage E deposit complete. Corpus assembled (851 examples = pilot 5 + zenn 222 + adrs 238 + glossary 136 + thesis 24 + judgment 226) into train/valid 766/85 with seed=42 / val-fraction=0.1. Verification LoRA trained (mlx-community/Qwen3-8B-4bit; planned 400 iter, completed 300 due to macOS uninterruptible-sleep wedge at iter 380; 300-iter weights MD5-match the live adapter and are used as the probe). eval_compare.py run against eval/prompt_bank.yaml (40 prompts x 2 langs = 80 entries). Verdict: FAIL on both Stage D early-stop axes (loop-detection 67/80 = 84% vs >30% threshold; framework-keyword hit-rate 0.12 vs <30% threshold). Recorded in docs/adr/0005-stage-d-verification-lora-result.md. LoRA artifact is verification-only and NOT part of the deposit; corpus is the deliverable. Per ADR-0005 §Decision §2 option (a), Stage E proceeds with explicit FAIL framing in README and CITATION.cff.",
   "counts": {
     "total": 851,
     "by_line": {

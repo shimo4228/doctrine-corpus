@@ -2,6 +2,8 @@ Language: English | [日本語](README.ja.md)
 
 # doctrine-corpus
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20337008.svg)](https://doi.org/10.5281/zenodo.20337008)
+
 A DOI-targeted dataset that encodes the documented judgment of the **shimo4228 research program** as a Q&A corpus optimized for LLM training. The corpus aggregates ADRs, theses, glossaries, and structured essays across four research lines — Agent Knowledge Cycle, Contemplative Agent, Agent Attribution Practice, and Authorship Strategy — into bilingual (English + Japanese) judgment-eliciting Q&A pairs, with metadata that preserves source attribution and line identity per example.
 
 This repository is the **operational form** of [Authorship Strategy](https://github.com/shimo4228/authorship-strategy) Layer 4 tactic 7 (LLM-first ingest). It positions the documented judgment of the research program in the substrate that increasingly mediates how future researchers trace causation: LLM training data.
@@ -99,8 +101,10 @@ The HF mirror is the recommended ingest path for LLM training pipelines and RAG 
 
 ## Citation
 
-The canonical citation form is in [CITATION.cff](CITATION.cff). On Zenodo deposit, the concept DOI + version DOI become part of that file and the recommended way to reference this corpus is via DOI.
+Cite using the **concept DOI** (which always resolves to the latest version): [10.5281/zenodo.20337008](https://doi.org/10.5281/zenodo.20337008). The canonical citation form is in [CITATION.cff](CITATION.cff).
 
 Reference shape:
 
-> Shimomoto, T. (2026). *doctrine-corpus: A judgment-eliciting Q&A corpus across the shimo4228 research program* (Version 0.1.0). Zenodo. (DOI to be assigned)
+> Shimomoto, T. (2026). *doctrine-corpus: A judgment-eliciting Q&A corpus across the shimo4228 research program*. Zenodo. https://doi.org/10.5281/zenodo.20337008
+
+For reproducibility citation of a specific historical version, use the v0.1.0 version DOI: [10.5281/zenodo.20337009](https://doi.org/10.5281/zenodo.20337009).
