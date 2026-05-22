@@ -25,8 +25,6 @@ doctrine-corpus/
 │   │   ├── 0003-bilingual-pair-policy.md                       # foundational (Stage A)
 │   │   ├── 0004-rubric-based-semantic-judgment-validation.md   # discovery (Stage C)
 │   │   └── 0005-stage-d-verification-lora-result.md            # discovery (Stage D)
-│   ├── thesis.md              # (Stage C) corpus design thesis
-│   ├── glossary.md            # (Stage C) terms used by this corpus
 │   └── empirical/
 │       └── README.md          # disposition-lora retrospective
 │
@@ -36,23 +34,37 @@ doctrine-corpus/
 │       ├── pilot.jsonl        # (Stage A) hand-written precedent pairs
 │       ├── train.jsonl        # (Stage D) merged + 90/10 split
 │       ├── valid.jsonl        # (Stage D)
-│       └── manifest.json      # per-line counts, license, generation date
+│       └── manifest.json      # per-line counts, license, generation date, verification verdict
+│
+├── data/                       # gitignored intermediate JSONLs (regenerated from upstream; SHAs in manifest.json)
+│   ├── adrs.jsonl
+│   ├── glossary.jsonl
+│   ├── thesis.jsonl
+│   ├── zenn.jsonl
+│   ├── judgment.jsonl          # (Stage C) session-mediated synthesis output
+│   ├── judgment_prompts.jsonl  # (Stage C) input prompts for judgment synthesis
+│   ├── train.jsonl             # staging split before promotion to corpus/v0.1.0/
+│   └── valid.jsonl
 │
 ├── scripts/
-│   ├── build_dataset.py       # (Stage A → B) extended to N-source via --source
-│   ├── line_templates.yaml    # (Stage B) line × lang Q prefix + ADR dir + has_ja
-│   ├── extract_zenn.py        # (Stage B) ported from disposition-lora
-│   ├── extract_adrs.py        # (Stage B) rewritten for 4-line scope, YAML-driven
-│   ├── extract_glossary.py    # (Stage C) new
-│   ├── extract_thesis.py      # (Stage C) new
-│   ├── extract_judgment_qa.py # (Stage C) new, LLM-mediated, core script
-│   └── train.sh               # (Stage D) ported from disposition-lora
+│   ├── build_dataset.py            # (Stage A → B) extended to N-source via --source
+│   ├── line_templates.yaml         # (Stage B) line × lang Q prefix + ADR dir + has_ja
+│   ├── extract_zenn.py             # (Stage B) ported from disposition-lora
+│   ├── extract_adrs.py             # (Stage B) rewritten for 4-line scope, YAML-driven
+│   ├── extract_glossary.py         # (Stage C) new
+│   ├── extract_thesis.py           # (Stage C) new
+│   ├── prepare_judgment_prompts.py # (Stage C) emits judgment_prompts.jsonl from ADR set
+│   ├── validate_judgment.py        # (Stage C) Layer 1 fire-alarm validator (see ADR-0004)
+│   └── train.sh                    # (Stage D) ported from disposition-lora
 │
 └── eval/
-    ├── README.md
-    ├── prompt_bank.yaml       # (Stage C) 40 prompts = 10 per line × 4 lines
+    ├── prompt_bank.yaml       # (Stage C) 40 prompts × 2 langs = 80 entries
     └── eval_compare.py        # (Stage D) base vs adapted side-by-side
 ```
+
+The corpus-design thesis and glossary planned in early Stage C were deferred to v0.2.0+ — for v0.1.0 the design rationale lives in the ADRs (0001-0003 foundational, 0004-0005 discovery) and term definitions live in each parent line's glossary (referenced via `meta.source` per pair).
+
+Stage C's judgment synthesis is **session-mediated, not script-mediated** (see [ADR-0004](../adr/0004-rubric-based-semantic-judgment-validation.md) and `CLAUDE.md` § Judgment generation protocol). `prepare_judgment_prompts.py` emits the prompt set; the answer pairs are generated inside a Claude Code session and validated by `validate_judgment.py` (Layer 1) + the `judgment-pair-reviewer` agent (Layer 2). No `extract_judgment_qa.py` script exists.
 
 ## Role boundary: this repo vs upstream lines
 
