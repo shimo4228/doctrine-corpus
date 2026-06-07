@@ -57,10 +57,7 @@
       "@type": "Person",
       "name": "Tatsuya Shimomoto",
       "alternateName": "shimo4228",
-      "sameAs": [
-        "https://github.com/shimo4228",
-        "https://orcid.org/0009-0002-6168-4162"
-      ]
+      "sameAs": ["https://github.com/shimo4228", "https://orcid.org/0009-0002-6168-4162", "https://www.wikidata.org/wiki/Q140090100"]
     },
 
     {
@@ -86,7 +83,7 @@
         "https://github.com/shimo4228/zenn-content"
       ],
       "isPartOf": "https://github.com/shimo4228/shimo4228",
-      "sameAs": "https://huggingface.co/datasets/Shimo4228/doctrine-corpus"
+      "sameAs": ["https://huggingface.co/datasets/Shimo4228/doctrine-corpus", "https://www.wikidata.org/wiki/Q140090191"]
     },
 
     {
@@ -100,7 +97,7 @@
       "description": "A normative framework, tactical catalog, and empirical baseline for authorship strategy under AI-mediated diffusion. Parent line of doctrine-corpus; this corpus is its Layer 4 tactic 7 implementation (LLM-first ingest).",
       "url": "https://github.com/shimo4228/authorship-strategy",
       "identifier": "10.5281/zenodo.20263316",
-      "sameAs": "https://doi.org/10.5281/zenodo.20263316",
+      "sameAs": ["https://doi.org/10.5281/zenodo.20263316", "https://www.wikidata.org/wiki/Q140090190"],
       "siblingOf": [
         "https://doi.org/10.5281/zenodo.19200726",
         "https://doi.org/10.5281/zenodo.19212118",
@@ -119,7 +116,7 @@
       "description": "Six-phase bidirectional growth loop for sustaining intent alignment between an AI agent and its operator over time. Source line for the AKC harvest in doctrine-corpus.",
       "url": "https://github.com/shimo4228/agent-knowledge-cycle",
       "identifier": "10.5281/zenodo.19200726",
-      "sameAs": "https://doi.org/10.5281/zenodo.19200726"
+      "sameAs": ["https://doi.org/10.5281/zenodo.19200726", "https://www.wikidata.org/wiki/Q140090186"]
     },
 
     {
@@ -133,7 +130,7 @@
       "description": "Autonomous agents grounded in four contemplative axioms (Emptiness, Non-Duality, Mindfulness, Boundless Care). Source line and the highest-volume contributor to doctrine-corpus.",
       "url": "https://github.com/shimo4228/contemplative-agent",
       "identifier": "10.5281/zenodo.19212118",
-      "sameAs": "https://doi.org/10.5281/zenodo.19212118"
+      "sameAs": ["https://doi.org/10.5281/zenodo.19212118", "https://www.wikidata.org/wiki/Q140090187"]
     },
 
     {
@@ -147,7 +144,7 @@
       "description": "Harness-neutral ADRs on accountability distribution in autonomous AI agents. Source line, vocabulary sibling of Authorship Strategy (shares the word 'attribution' with disjoint meaning).",
       "url": "https://github.com/shimo4228/agent-attribution-practice",
       "identifier": "10.5281/zenodo.19652013",
-      "sameAs": "https://doi.org/10.5281/zenodo.19652013"
+      "sameAs": ["https://doi.org/10.5281/zenodo.19652013", "https://www.wikidata.org/wiki/Q140090188"]
     },
 
     {
