@@ -11,7 +11,7 @@ This repo is positioned as an **ecosystem repo of the Authorship Strategy line**
 - Parent line: [`authorship-strategy`](https://github.com/shimo4228/authorship-strategy) (DOI `10.5281/zenodo.20263316`)
 - Source lines (corpus material harvested from):
   - [`agent-knowledge-cycle`](https://github.com/shimo4228/agent-knowledge-cycle) (DOI `10.5281/zenodo.19200726`)
-  - [`contemplative-agent`](https://github.com/shimo4228/contemplative-agent) (DOI `10.5281/zenodo.19212118`, local clone: `contemplative-moltbook/`)
+  - [`contemplative-agent`](https://github.com/shimo4228/contemplative-agent) (DOI `10.5281/zenodo.19212118`, local clone: `contemplative-agent/`)
   - [`agent-attribution-practice`](https://github.com/shimo4228/agent-attribution-practice) (DOI `10.5281/zenodo.19652013`)
   - `authorship-strategy` itself
 - Source content (non-DOI): [`zenn-content`](https://github.com/shimo4228/zenn-content)
