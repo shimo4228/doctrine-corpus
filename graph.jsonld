@@ -332,6 +332,72 @@
       "@type": "ExternalReference",
       "name": "Answer.AI llms.txt standard",
       "description": "The convention followed by this corpus's llms.txt and llms-full.txt artifacts. Proposed by Jeremy Howard / Answer.AI in 2024 as the AI-facing equivalent of robots.txt."
+    },
+
+    {
+      "@id": "https://arxiv.org/abs/2303.16634",
+      "sameAs": "https://www.wikidata.org/wiki/Q135190333",
+      "@type": ["ExternalReference", "ScholarlyArticle"],
+      "name": "G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment",
+      "datePublished": "2023-03-29",
+      "identifier": "arXiv:2303.16634",
+      "url": "https://arxiv.org/abs/2303.16634",
+      "description": "Rubric-based LLM-as-judge protocol with chain-of-thought before verdict. Cited in ADR-0004 as the core methodological evidence for rejecting lexical surface signals: vocabulary overlap (BLEU/ROUGE) correlates with human judgment at Spearman ~0.2 while rubric-based LLM-judge reaches ~0.5 on the same task — the basis for replacing the script's vocabulary-frequency checks with the Layer 2 judgment-pair-reviewer rubric."
+    },
+
+    {
+      "@id": "https://arxiv.org/abs/2305.11206",
+      "sameAs": "https://www.wikidata.org/wiki/Q131390026",
+      "@type": ["ExternalReference", "ScholarlyArticle"],
+      "name": "LIMA: Less Is More for Alignment",
+      "datePublished": "2023-05-18",
+      "identifier": "arXiv:2305.11206",
+      "url": "https://arxiv.org/abs/2305.11206",
+      "description": "Shows that a small number of carefully curated training examples can outweigh volume for alignment. Distilled into ADR-0004's rubric design as grounding for the corpus's quality-over-quantity stance: strict round-by-round semantic gating of judgment pairs rather than bulk generation followed by post-hoc filtering."
+    },
+
+    {
+      "@id": "https://arxiv.org/abs/2306.05685",
+      "sameAs": "https://www.wikidata.org/wiki/Q123527686",
+      "@type": ["ExternalReference", "ScholarlyArticle"],
+      "name": "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena",
+      "datePublished": "2023-06-09",
+      "identifier": "arXiv:2306.05685",
+      "url": "https://arxiv.org/abs/2306.05685",
+      "description": "Established the LLM-as-judge methodology and documented its systematic biases (position bias, verbosity bias, self-enhancement bias). Source of the bias mitigations built into ADR-0004's Layer 2 rubric: both-ordering evaluation for K=2 facet diversity, counting load-bearing claims instead of sentence count, and source-span citation required for every verdict."
+    },
+
+    {
+      "@id": "https://arxiv.org/abs/2307.10928",
+      "sameAs": "https://www.wikidata.org/wiki/Q140181367",
+      "@type": ["ExternalReference", "ScholarlyArticle"],
+      "name": "FLASK: Fine-grained Language Model Evaluation based on Alignment Skill Sets",
+      "datePublished": "2023-07-20",
+      "identifier": "arXiv:2307.10928",
+      "url": "https://arxiv.org/abs/2307.10928",
+      "description": "Decomposes coarse evaluation into fine-grained, per-skill criteria. Supports ADR-0004's per-criterion isolation: the Layer 2 rubric scores eight named criteria (Decision Equivalence, Framework Application, Situation Novelty, K=2 Facet Diversity, Style-without-Substance, Bilingual Pair Equivalence, Metadata Integrity, Q-Anti-Chunk) independently rather than issuing a single holistic verdict."
+    },
+
+    {
+      "@id": "https://arxiv.org/abs/2408.09235",
+      "sameAs": "https://www.wikidata.org/wiki/Q140181368",
+      "@type": ["ExternalReference", "ScholarlyArticle"],
+      "name": "Reference-Guided Verdict: LLMs-as-Judges in Automatic Evaluation of Free-Form Text",
+      "datePublished": "2024-08-17",
+      "identifier": "arXiv:2408.09235",
+      "url": "https://arxiv.org/abs/2408.09235",
+      "description": "Shows that anchoring LLM-judge verdicts to a reference answer improves evaluation reliability over reference-free judging. Supports ADR-0004's design of the load-bearing Decision Equivalence criterion: the generated answer is judged against the source ADR's Decision text as reference, not against the judge's own notion of a good answer."
+    },
+
+    {
+      "@id": "https://arxiv.org/abs/2410.12784",
+      "sameAs": "https://www.wikidata.org/wiki/Q134515865",
+      "@type": ["ExternalReference", "ScholarlyArticle"],
+      "name": "JudgeBench: A Benchmark for Evaluating LLM-based Judges",
+      "datePublished": "2024-10-16",
+      "identifier": "arXiv:2410.12784",
+      "url": "https://arxiv.org/abs/2410.12784",
+      "description": "Benchmark showing the strongest LLM judges still cap at roughly 64% accuracy on reasoning correctness. Grounds ADR-0004's calibration-risk consequence: the judgment-pair-reviewer's verdicts are not ground truth and must be calibrated against the author's judgment on early rounds, with rubric-prompt adjustment (not corpus adjustment) when they disagree."
     }
   ]
 }
