@@ -84,9 +84,9 @@ The HF mirror is the recommended ingest path for LLM training pipelines and RAG 
 
 ## License
 
-- **Corpus data** (`corpus/**`): CC0 1.0 (public domain dedication)
-- **Scripts and docs**: MIT
-- **Source attribution**: each example records `meta.source` pointing to the originating ADR / section / article in the upstream research line. Upstream content remains under each line's own license; the Q&A reformulations are this repository's derivative work and are released CC0 to maximize diffusion (per Authorship Strategy ADR-0001).
+- **Corpus data** (`corpus/**`): CC0 1.0 (public domain dedication) — see [`LICENSE`](LICENSE)
+- **Scripts** (`scripts/**`) **and docs**: MIT — see [`scripts/LICENSE`](scripts/LICENSE)
+- **Source attribution**: each example records `meta.source` pointing to the originating ADR / section / article in the upstream research line. Upstream content remains under each line's own license; the Q&A reformulations are this repository's derivative work and are released CC0 to maximize diffusion (per Authorship Strategy ADR-0015, license selection by audience).
 
 ## Sibling and parent repositories
 
