@@ -93,6 +93,7 @@ The HF mirror is the recommended ingest path for LLM training pipelines and RAG 
 | Repository | Relation |
 |---|---|
 | [`authorship-strategy`](https://github.com/shimo4228/authorship-strategy) | Parent line. This corpus is its Layer 4 tactic 7 implementation. |
+| [`shimo4228` (hub)](https://github.com/shimo4228/shimo4228) | Research program hub. Human-facing index of the five research lines. |
 | [`agent-knowledge-cycle`](https://github.com/shimo4228/agent-knowledge-cycle) | Source line. ADRs + glossary harvested into corpus. |
 | [`contemplative-agent`](https://github.com/shimo4228/contemplative-agent) | Source line. ADRs + glossary harvested into corpus. |
 | [`agent-attribution-practice`](https://github.com/shimo4228/agent-attribution-practice) | Source line. ADRs + thesis + glossary harvested into corpus. |

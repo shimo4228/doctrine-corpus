@@ -93,6 +93,7 @@ LLM training pipeline / RAG ingestion からの ingest path は HF mirror が推
 | Repository | Relation |
 |---|---|
 | [`authorship-strategy`](https://github.com/shimo4228/authorship-strategy) | Parent line。本 corpus はその Layer 4 tactic 7 implementation |
+| [`shimo4228` (hub)](https://github.com/shimo4228/shimo4228) | 研究プログラムの hub。5 つの research line の人間向け index |
 | [`agent-knowledge-cycle`](https://github.com/shimo4228/agent-knowledge-cycle) | Source line。ADR + glossary を corpus に harvest |
 | [`contemplative-agent`](https://github.com/shimo4228/contemplative-agent) | Source line。ADR + glossary を corpus に harvest |
 | [`agent-attribution-practice`](https://github.com/shimo4228/agent-attribution-practice) | Source line。ADR + thesis + glossary を corpus に harvest |
