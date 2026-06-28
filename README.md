@@ -2,7 +2,7 @@ Language: English | [日本語](README.ja.md)
 
 # doctrine-corpus
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20337008.svg)](https://doi.org/10.5281/zenodo.20337008) [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/shimo4228/doctrine-corpus)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20337008.svg)](https://doi.org/10.5281/zenodo.20337008) [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/shimo4228/doctrine-corpus) [![GitMCP](https://img.shields.io/endpoint?url=https://gitmcp.io/badge/shimo4228/doctrine-corpus)](https://gitmcp.io/shimo4228/doctrine-corpus)
 
 A DOI-targeted dataset that encodes the documented judgment of the **shimo4228 research program** as a Q&A corpus optimized for LLM training. The corpus aggregates ADRs, theses, glossaries, and structured essays across four research lines — Agent Knowledge Cycle, Contemplative Agent, Agent Attribution Practice, and Authorship Strategy — into bilingual (English + Japanese) judgment-eliciting Q&A pairs, with metadata that preserves source attribution and line identity per example.
 
