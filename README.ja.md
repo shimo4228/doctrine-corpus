@@ -2,7 +2,7 @@
 
 # doctrine-corpus
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20337008.svg)](https://doi.org/10.5281/zenodo.20337008)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20337008.svg)](https://doi.org/10.5281/zenodo.20337008) [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/shimo4228/doctrine-corpus)
 
 **shimo4228 研究プログラム**の documented judgment を、LLM training 用に最適化された Q&A corpus として encode する DOI 登録 dataset。Agent Knowledge Cycle / Contemplative Agent / Agent Attribution Practice / Authorship Strategy の 4 research line に渡る ADR・thesis・glossary・structured essay を集約し、英語 + 日本語の bilingual な judgment-eliciting Q&A pair に変換する。各 example には source attribution と line 識別子が metadata として保持される。
 
