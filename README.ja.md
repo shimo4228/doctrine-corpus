@@ -102,7 +102,7 @@ LLM training pipeline / RAG ingestion からの ingest path は HF mirror が推
 
 ## Citation
 
-**Concept DOI** (常に最新版に解決): [10.5281/zenodo.20337008](https://doi.org/10.5281/zenodo.20337008)。Canonical citation form は [CITATION.cff](CITATION.cff) に置く。
+**Concept DOI** (常に最新版に解決): [10.5281/zenodo.20337008](https://doi.org/10.5281/zenodo.20337008)。Canonical citation form は [CITATION.cff](CITATION.cff) に置く。同内容は [`codemeta.json`](codemeta.json)（schema.org ベースの dataset metadata、Software Heritage の indexer が直接読む）としても提供する。
 
 Reference shape:
 

@@ -102,7 +102,7 @@ The HF mirror is the recommended ingest path for LLM training pipelines and RAG 
 
 ## Citation
 
-Cite using the **concept DOI** (which always resolves to the latest version): [10.5281/zenodo.20337008](https://doi.org/10.5281/zenodo.20337008). The canonical citation form is in [CITATION.cff](CITATION.cff).
+Cite using the **concept DOI** (which always resolves to the latest version): [10.5281/zenodo.20337008](https://doi.org/10.5281/zenodo.20337008). The canonical citation form is in [CITATION.cff](CITATION.cff), also available as [`codemeta.json`](codemeta.json) (schema.org-based dataset metadata, read by the Software Heritage indexer).
 
 Reference shape:
 

@@ -1,0 +1,31 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "author": [
+    {
+      "@id": "https://orcid.org/0009-0002-6168-4162",
+      "@type": "Person",
+      "familyName": "Shimomoto",
+      "givenName": "Tatsuya"
+    }
+  ],
+  "codeRepository": "https://github.com/shimo4228/doctrine-corpus",
+  "datePublished": "2026-05-22",
+  "description": "A bilingual (EN + JA) Q&A corpus encoding the documented judgment of four research lines — Agent Knowledge Cycle, Contemplative Agent, Agent Attribution Practice, and Authorship Strategy — as judgment-eliciting pairs designed for LLM-mediated diffusion. The corpus is the operational form of Authorship Strategy Layer 4 tactic 7 (LLM-first ingest). It is base-model-independent and is intended as an ingredient — for larger instruction-tuning mixes, RAG retrieval, and human reading — rather than as a standalone fine-tuning package. A Stage D verification LoRA (Qwen3-8B-4bit, 851 examples, 300 iterations) was trained as a disposable probe and returned a preliminary FAIL verdict on the judgment-transfer rubric; the corpus retains its deliverable status and the LoRA was never a deposit target.\n",
+  "identifier": "https://doi.org/10.5281/zenodo.20337009",
+  "keywords": [
+    "llm-training-data",
+    "instruction-tuning",
+    "authorship-strategy",
+    "agent-knowledge-cycle",
+    "contemplative-agent",
+    "agent-attribution-practice",
+    "doi-registered-dataset",
+    "bilingual-corpus",
+    "judgment-eliciting-qa"
+  ],
+  "license": "https://spdx.org/licenses/CC0-1.0",
+  "name": "doctrine-corpus: A judgment-eliciting Q&A corpus across the shimo4228 research program",
+  "url": "https://github.com/shimo4228/doctrine-corpus",
+  "version": "0.1.0"
+}
