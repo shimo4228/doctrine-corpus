@@ -57,7 +57,7 @@
       "@type": "Person",
       "name": "Tatsuya Shimomoto",
       "alternateName": "shimo4228",
-      "sameAs": ["https://github.com/shimo4228", "https://orcid.org/0009-0002-6168-4162", "https://www.wikidata.org/wiki/Q140090100"]
+      "sameAs": ["https://github.com/shimo4228", "https://orcid.org/0009-0002-6168-4162"]
     },
 
     {
@@ -83,7 +83,7 @@
         "https://github.com/shimo4228/zenn-content"
       ],
       "isPartOf": "https://github.com/shimo4228/shimo4228",
-      "sameAs": ["https://huggingface.co/datasets/Shimo4228/doctrine-corpus", "https://www.wikidata.org/wiki/Q140090191"]
+      "sameAs": ["https://huggingface.co/datasets/Shimo4228/doctrine-corpus"]
     },
 
     {
@@ -97,7 +97,7 @@
       "description": "A normative framework, tactical catalog, and empirical baseline for authorship strategy under AI-mediated diffusion. Parent line of doctrine-corpus; this corpus is its Layer 4 tactic 7 implementation (LLM-first ingest).",
       "url": "https://github.com/shimo4228/authorship-strategy",
       "identifier": "10.5281/zenodo.20263316",
-      "sameAs": ["https://doi.org/10.5281/zenodo.20263316", "https://www.wikidata.org/wiki/Q140090190"],
+      "sameAs": ["https://doi.org/10.5281/zenodo.20263316"],
       "siblingOf": [
         "https://doi.org/10.5281/zenodo.19200726",
         "https://doi.org/10.5281/zenodo.19212118",
@@ -116,7 +116,7 @@
       "description": "Six-phase bidirectional growth loop for sustaining intent alignment between an AI agent and its operator over time. Source line for the AKC harvest in doctrine-corpus.",
       "url": "https://github.com/shimo4228/agent-knowledge-cycle",
       "identifier": "10.5281/zenodo.19200726",
-      "sameAs": ["https://doi.org/10.5281/zenodo.19200726", "https://www.wikidata.org/wiki/Q140090186"]
+      "sameAs": ["https://doi.org/10.5281/zenodo.19200726"]
     },
 
     {
@@ -130,7 +130,7 @@
       "description": "Autonomous agents grounded in four contemplative axioms (Emptiness, Non-Duality, Mindfulness, Boundless Care). Source line and the highest-volume contributor to doctrine-corpus.",
       "url": "https://github.com/shimo4228/contemplative-agent",
       "identifier": "10.5281/zenodo.19212118",
-      "sameAs": ["https://doi.org/10.5281/zenodo.19212118", "https://www.wikidata.org/wiki/Q140090187"]
+      "sameAs": ["https://doi.org/10.5281/zenodo.19212118"]
     },
 
     {
@@ -144,7 +144,7 @@
       "description": "Harness-neutral ADRs on accountability distribution in autonomous AI agents. Source line, vocabulary sibling of Authorship Strategy (shares the word 'attribution' with disjoint meaning).",
       "url": "https://github.com/shimo4228/agent-attribution-practice",
       "identifier": "10.5281/zenodo.19652013",
-      "sameAs": ["https://doi.org/10.5281/zenodo.19652013", "https://www.wikidata.org/wiki/Q140090188"]
+      "sameAs": ["https://doi.org/10.5281/zenodo.19652013"]
     },
 
     {
@@ -336,7 +336,6 @@
 
     {
       "@id": "https://arxiv.org/abs/2303.16634",
-      "sameAs": "https://www.wikidata.org/wiki/Q135190333",
       "@type": ["ExternalReference", "ScholarlyArticle"],
       "name": "G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment",
       "datePublished": "2023-03-29",
@@ -347,7 +346,6 @@
 
     {
       "@id": "https://arxiv.org/abs/2305.11206",
-      "sameAs": "https://www.wikidata.org/wiki/Q131390026",
       "@type": ["ExternalReference", "ScholarlyArticle"],
       "name": "LIMA: Less Is More for Alignment",
       "datePublished": "2023-05-18",
@@ -358,7 +356,6 @@
 
     {
       "@id": "https://arxiv.org/abs/2306.05685",
-      "sameAs": "https://www.wikidata.org/wiki/Q123527686",
       "@type": ["ExternalReference", "ScholarlyArticle"],
       "name": "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena",
       "datePublished": "2023-06-09",
@@ -369,7 +366,6 @@
 
     {
       "@id": "https://arxiv.org/abs/2307.10928",
-      "sameAs": "https://www.wikidata.org/wiki/Q140181367",
       "@type": ["ExternalReference", "ScholarlyArticle"],
       "name": "FLASK: Fine-grained Language Model Evaluation based on Alignment Skill Sets",
       "datePublished": "2023-07-20",
@@ -380,7 +376,6 @@
 
     {
       "@id": "https://arxiv.org/abs/2408.09235",
-      "sameAs": "https://www.wikidata.org/wiki/Q140181368",
       "@type": ["ExternalReference", "ScholarlyArticle"],
       "name": "Reference-Guided Verdict: LLMs-as-Judges in Automatic Evaluation of Free-Form Text",
       "datePublished": "2024-08-17",
@@ -391,7 +386,6 @@
 
     {
       "@id": "https://arxiv.org/abs/2410.12784",
-      "sameAs": "https://www.wikidata.org/wiki/Q134515865",
       "@type": ["ExternalReference", "ScholarlyArticle"],
       "name": "JudgeBench: A Benchmark for Evaluating LLM-based Judges",
       "datePublished": "2024-10-16",
