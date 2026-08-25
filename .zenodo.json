@@ -28,6 +28,12 @@
   "language": "eng",
   "related_identifiers": [
     {
+      "identifier": "https://github.com/shimo4228/doctrine-corpus",
+      "relation": "isSupplementTo",
+      "resource_type": "dataset",
+      "scheme": "url"
+    },
+    {
       "identifier": "10.5281/zenodo.20263316",
       "relation": "isPartOf",
       "resource_type": "software",
